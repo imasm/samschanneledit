@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>SamsChannelEditor</title>
+<style type="text/css">
+body { font-family: 'Segoe UI','Lucida Grande',Verdana, Arial, Helvetica, sans-serif; font-size:80%; }
+#header { padding: 0px; background-color: #336699; color: #FFFFFF;}
+#header h1 { padding: 8px; }
+#footer { background: #FFFFFF; text-align: center; clear: both; padding: 17px 0 24px 0; width: 950px; }
+#footer ul { margin: 0 0 30px 0; }
+#footer ul li { display: inline; margin: 0; list-style-type: none; }
+#footer ul li img { margin: 0 10px; border-style: none;}
+#footer_content { width: 600px; margin: 0 auto; }
+</style>
+</head>
+<body>
+<div id="header">
+<h1>SamsChannelEditor</h1>
+</div>
+<p>SamsChannelEditor is a desktop application for editing a
+channel list from your Samsung TV. Now sorting channels should be much
+easier.</p>
+<p></p>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td width="510">
+<img style="width: 500px; height: 321px;" src="img/screenshots/mainscreen.PNG" alt="Main Screeshot" /></td>
+<td valign="top">
+<ul>
+<li>Support Samsung C and D Series.</li>
+<li>Works with scm files directly.</li>
+<li>Support for multiple channels configurations:
+<ul>
+<li>map-AirD</li>
+<li>map-AirA</li>
+<li>map-CableD</li>
+<li>map-CableA</li>
+<li>map-SateD</li>
+<li>map-CDTVVD</li>
+<li>AstraHDPlusD</li>
+</ul>
+</li>
+<li>Support for configuration files (read-only)</li>
+<ul>
+<li>CloneInfo</li>
+<li>SatDataBase</li>
+</ul>
+<li>Easy to use: Just drag &amp; drop channels.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p></p>
+<h2>Installation</h2>
+<p>There's no setup file, just download de binaries and execute
+the samschanneleditor.exe file. All files are avaiable <a href="http://sourceforge.net/projects/samschanneledit/files/">here</a>.</p>
+<p>This application is written in C# so you need the .Net
+framework 2.0 (or newer) to be installed on your computer.
+<br />
+You can download here : <a href="http://msdn.microsoft.com/en-us/netframework">http://msdn.microsoft.com/en-us/netframework</a></p>
+
+<h2>Bad file size error</h2>
+<p>
+Since version 0.9 you can define new sizes in SamsChannelEditor.exe.config. 
+Just open with a text editor like notepad and add a new size for your file in <appSettings> section.</p>
+<p>key: starts with "fs_" and after comes the channel file name (without "-" after map) value: 
+is a number list separated by commas. Each number specifies a possible record size.</p>
+<p>To calculate your record size:<br>
+<ol>
+<li>change extension .scm to .zip</li>
+<li>Extract all files.</li>
+<li>Select file you are opening and look the size in file properties.</li>
+<li>record size is a 1000 multiple (divide your size by 1000 or 2000)</li>
+</ol>
+<p>
+Example:
+<pre>
+<div style="font-size:medium;">
+<span style="color: #0000FF; font-size:medium;">&lt;</span><span style="color: #800000;">appSettings</span><span style="color: #0000FF;">&gt;</span><span style="color: #000000;"> 
+    </span><span style="color: #0000FF;">&lt;</span><span style="color: #800000;">add </span><span style="color: #FF0000;">key</span><span style="color: #0000FF;">=&quot;fs_default&quot;</span><span style="color: #FF0000;"> value</span><span style="color: #0000FF;">=&quot;292,320&quot;</span><span style="color: #FF0000;"> </span><span style="color: #0000FF;">/&gt;</span><span style="color: #000000;"> 
+    </span><span style="color: #0000FF;">&lt;</span><span style="color: #800000;">add </span><span style="color: #FF0000;">key</span><span style="color: #0000FF;">=&quot;fs_mapAirA&quot;</span><span style="color: #FF0000;"> value</span><span style="color: #0000FF;">=&quot;40,64&quot;</span><span style="color: #FF0000;"> </span><span style="color: #0000FF;">/&gt;</span><span style="color: #000000;"> 
+    </span><span style="color: #0000FF;">&lt;</span><span style="color: #800000;">add </span><span style="color: #FF0000;">key</span><span style="color: #0000FF;">=&quot;fs_mapCableA&quot;</span><span style="color: #FF0000;"> value</span><span style="color: #0000FF;">=&quot;40,64&quot;</span><span style="color: #FF0000;"> </span><span style="color: #0000FF;">/&gt;</span><span style="color: #000000;"> 
+    </span><span style="color: #0000FF;">&lt;</span><span style="color: #800000;">add </span><span style="color: #FF0000;">key</span><span style="color: #0000FF;">=&quot;fs_mapSateD&quot;</span><span style="color: #FF0000;"> value</span><span style="color: #0000FF;">=&quot;168,172,194&quot;</span><span style="color: #FF0000;"> </span><span style="color: #0000FF;">/&gt;</span><span style="color: #000000;"> 
+    </span><span style="color: #0000FF;">&lt;</span><span style="color: #800000;">add </span><span style="color: #FF0000;">key</span><span style="color: #0000FF;">=&quot;fs_mapAstraHDPlusD&quot;</span><span style="color: #FF0000;"> value</span><span style="color: #0000FF;">=&quot;212&quot;</span><span style="color: #FF0000;"> </span><span style="color: #0000FF;">/&gt;</span><span style="color: #000000;"> 
+</span><span style="color: #0000FF;">&lt;/</span><span style="color: #800000;">appSettings</span><span style="color: #0000FF;">&gt;</span><span style="color: #000000;"> </span>
+</div>
+</pre>
+</p>
+
+
+<h2>License</h2>
+<p>SamsChannelEditor is distributed under the GNU General Public
+License (GPL). For more information: <a href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL.3.0</a></p>
+<h2>Changelog</h2>
+<h3>Version 0.10</h3>
+<ul>
+<li>Applied a patch created by Andreas Winter to save sort order to file and restore after.</li>
+<li>Applied a patch created by Andreas Mayer to remove encrypted channels.</li>
+</ul>
+<h3>Version 0.9</h3>
+<ul>
+<li>Moved record sizes to SamsChannelEditor.exe.config. Now are easy to add new record sizes for new models.</li>
+</ul>
+<h3>Version 0.8</h3>
+<ul>
+<li>BUG [3468470] : Open map-SateD 144bytes length (LE37C670)</li>
+<li>MoveTo problems detected when out of range number is introduced.</li>
+</ul>
+<h3>Version 0.7</h3>
+<ul>
+<li>Works on D Series</li>
+<li>Drag and Drop with auto scroll</li>
+<li>Added support for analog channels map-AirA and map-CableA</li>
+<li>Context menu: MoveTo </li>
+<li>Context menu: Renumber All</li>
+</ul>
+<h3>Version 0.6</h3>
+<ul>
+<li>Added support for map-AstraHDPlusD (Astra Satellite Channels)</li><li>Added support for configuration files as read-only</li><li>Added support for SatDataBaseFile.dat (Satellite List)</li><li>Added support for CloneInfo (TV info)</li><li>Modified map-SateD</li><li>Show more channel settings</li>
+</ul>
+
+<h3>Version 0.5</h3>
+<ul>
+<li>Works on D Series</li>
+<li>Added support for map-SateD (Digital Satellite Channels)</li>
+<li>Added support for map-CableD (Satellite Channels?)</li>
+</ul>
+<h3>Version 0.4</h3>
+<ul>
+<li>Added D Series Compatibility</li>
+<li>Code rewritted</li>
+<li>Only opens smc files</li>
+<li>Added support for editing various files inside scm</li>
+<li>Added support for map-CableD (Digital Cable TV Channels)</li>
+<li>Set channels number on fly</li>
+<li>Solved multiselect problem with checkboxes</li>
+</ul>
+<h3>Version 0.3</h3>
+<ul>
+<li>User can delete channels.</li>
+</ul>
+<h3>Version 0.2</h3>
+<ul>
+<li>Open and Save .scm files directly</li>
+<li>Uses <a href="http://www.sharpdevelop.net/OpenSource/SharpZipLib">#ziplib</a>
+for read and update scm files</li>
+</ul>
+<h3>Version 0.1</h3>
+<ul>
+<li>Tested in C650 series</li>
+<li>Open and Save map_AirD files</li>
+<li>Drag&amp;Drop Channels</li>
+</ul>
+<div id="footer">
+<div id="footer_content">
+<ul>
+<li><a href="http://www.opensource.org/docs/definition.php" title="The Open Source Definition" target="_blank">
+<img src="img/logos/opensource-logo.png" alt="open source" height="95" width="110" /></a></li>
+<li><a href="http://sourceforge.net/" title="SourceForge" target="_blank">
+<img src="img/logos/sourceforge-logo.png" alt="Sourceforge" height="63" width="192" /></a></li>
+</ul>
+<p><strong>Copyright:</strong> © 2011&nbsp;by
+Ivan Masmitja</p>
+</div>
+</div>
+</body></html>

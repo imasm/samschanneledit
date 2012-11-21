@@ -1,0 +1,60 @@
+Version 0.10
+------------
+Applied a patch created by Andreas Winter to save sort order to file and restore after.
+Applied a patch created by Andreas Mayer to remove encrypted channels.
+
+Version 0.9
+-----------
+Added searching channels
+Moved record sizes to application settings.
+
+Version 0.8
+-----------
+BUG [3468470] : Solved. Open map-SateD 144bytes length (LE37C670)
+MoveTo problems detected when out of range number is introduced.
+
+Version 0.7
+-----------
+Added support for Analog channels (map-airA, map-CableA)
+Drag & and Drop with autoscroll
+Context menu with MoveTo and Renumber options
+Encoding changed for channels names
+Some bugs are corrected
+
+Version 0.6
+-----------
+Added support for map-AstraHDPlusD (Astra Satellite Channels)
+Added support for configuration files as read-only
+Added support for SatDataBaseFile.dat (Satellite List)
+Added support for CloneInfo (TV info)
+Modified map-SateD
+Show more channel settings
+
+Version 0.5
+-----------
+Works on D Series
+Added support for map-SateD (Digital Satellite Channels)
+Added support for map-CableD (Satellite Channels?)
+
+Version 0.4
+-----------
+Code rewritted
+Only opens smc files
+Added support for editing various files inside scm
+Added support for map-CableD (Digital Cable TV Channels)
+Set channels nº on fly
+Solved multiselect problem with checkboxes
+
+Version 0.3
+-----------
+User can delete channels.
+
+Version 0.2
+-----------
+Open and Save scm files directly
+Uses #ziplib for read and update scm files (http://www.sharpdevelop.net/OpenSource/SharpZipLib)
+
+Version 0.1
+-----------
+Open and Save map_AirD files
+Drag&Drop Channels
