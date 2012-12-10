@@ -165,6 +165,10 @@ namespace SamsChannelEditor
               lvi.SubItems.Add(ch.Multiplex_TSID.ToString(numberFormat)); // tsid
               lvi.SubItems.Add(ch.Multiplex_ONID.ToString(numberFormat)); // onid
               lvi.SubItems.Add(ch.Network.ToString(numberFormat)); // net
+              lvi.SubItems.Add(ch.FavoriteList1 ? "1" : string.Empty);
+              lvi.SubItems.Add(ch.FavoriteList2 ? "1" : string.Empty);
+              lvi.SubItems.Add(ch.FavoriteList3 ? "1" : string.Empty);
+              lvi.SubItems.Add(ch.FavoriteList4 ? "1" : string.Empty);
             }
 
 #if DEBUG
@@ -259,6 +263,10 @@ namespace SamsChannelEditor
         listView1.Columns.Add("tsId", 60);
         listView1.Columns.Add("onid", 60);
         listView1.Columns.Add("Network", 80);
+        listView1.Columns.Add("Fav1", 50);
+        listView1.Columns.Add("Fav2", 50);
+        listView1.Columns.Add("Fav3", 50);
+        listView1.Columns.Add("Fav4", 50);
       }
 #if DEBUG
       listView1.Columns.Add("Pos", 50);
