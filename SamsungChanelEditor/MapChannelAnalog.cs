@@ -102,7 +102,27 @@ namespace SamsChannelEditor
       get { return 0; }
     }
 
-    public virtual  bool IsOk()
+    public virtual bool FavoriteList1
+    {
+        get { return false; }
+    }
+    
+    public virtual bool FavoriteList2
+    {
+        get { return false; }
+    }
+    
+    public virtual bool FavoriteList3
+    {
+        get { return false; }
+    }
+    
+    public virtual bool FavoriteList4
+    {
+        get { return false; }
+    }
+    
+    public virtual bool IsOk()
     {
       return (BitConverter.ToInt16(data, 0) > 0);
     }
