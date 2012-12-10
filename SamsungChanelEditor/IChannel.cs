@@ -41,6 +41,11 @@ namespace SamsChannelEditor
     bool Deleted { get; set; }
     bool Active { get; set; }    
 
+    bool FavoriteList1 { get; }
+    bool FavoriteList2 { get; }
+    bool FavoriteList3 { get; }
+    bool FavoriteList4 { get; }
+    
     byte CalcChecksum(bool save);
   }
 }
