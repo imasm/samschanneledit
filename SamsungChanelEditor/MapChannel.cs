@@ -124,6 +124,26 @@ namespace SamsChannelEditor
       get { return BitConverter.ToUInt16(data, 32); }
     }
 
+    public virtual bool FavoriteList1
+    {
+        get { return ((data[290] & 0x01) > 0); }
+    }
+    
+    public virtual bool FavoriteList2
+    {
+        get { return ((data[290] & 0x02) > 0); }
+    }
+    
+    public virtual bool FavoriteList3
+    {
+        get { return ((data[290] & 0x04) > 0); }
+    }
+    
+    public virtual bool FavoriteList4
+    {
+        get { return ((data[290] & 0x08) > 0); }
+    }
+    
     public virtual  bool IsOk()
     {
       return (BitConverter.ToInt16(data, 0) > 0);
