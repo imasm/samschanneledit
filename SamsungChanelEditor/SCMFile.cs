@@ -17,12 +17,8 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using ICSharpCode.SharpZipLib.Core;
-using ICSharpCode.SharpZipLib.Zip;
 using log4net;
 
 namespace SamsChannelEditor
@@ -37,8 +33,8 @@ namespace SamsChannelEditor
     mapCDTVVD,
     mapSateD,
     mapAstraHDPlusD,
-    CloneInfo,
-    SatDataBase,
+    cloneInfo,
+    satDataBase,
   }
 
   internal class SCMFileContentInfo
@@ -57,12 +53,12 @@ namespace SamsChannelEditor
 
   internal class SCMFile
   {
-    static ILog log = LogManager.GetLogger("SCMFile");
+    static readonly ILog LOG = LogManager.GetLogger("SCMFile");
 
     #region Static methods
-    static Dictionary<string, SCMFileContentInfo> SupportedFiles = new Dictionary<string, SCMFileContentInfo>()
+    static readonly Dictionary<string, SCMFileContentInfo> SUPPORTED_FILES = new Dictionary<string, SCMFileContentInfo>
     {
-      {"cloneinfo", new SCMFileContentInfo("cloneinfo", SCMFileContentType.CloneInfo, false) },
+      {"cloneinfo", new SCMFileContentInfo("cloneinfo", SCMFileContentType.cloneInfo, false) },
       {"map-aird", new SCMFileContentInfo("map-aird", SCMFileContentType.mapAirD, true) },
       {"map-aira", new SCMFileContentInfo("map-aira", SCMFileContentType.mapAirA, true) },
       {"map-cablea", new SCMFileContentInfo("map-cablea", SCMFileContentType.mapCableA, true) },
@@ -70,19 +66,24 @@ namespace SamsChannelEditor
       {"map-cdtvvd", new SCMFileContentInfo("map-cdtvvd", SCMFileContentType.mapCDTVVD, true) },
       {"map-sated", new SCMFileContentInfo("map-sated", SCMFileContentType.mapSateD, true) },
       {"map-astrahdplusd", new SCMFileContentInfo("map-astrahdplusd", SCMFileContentType.mapAstraHDPlusD, true) },
-      {"satdatabase.dat", new SCMFileContentInfo("satdatabase.dat", SCMFileContentType.SatDataBase, false) },      
+      {"satdatabase.dat", new SCMFileContentInfo("satdatabase.dat", SCMFileContentType.satDataBase, false) },      
     };
 
     internal static bool IsChannelMapFile(string filename)
     {
-      string f = Path.GetFileName(filename).ToLower();
-
-      if (SupportedFiles.ContainsKey(f))
-        return SupportedFiles[f].IsChannelListFile;
-      else
+      if (string.IsNullOrEmpty(filename))
         return false;
+
+      filename = Path.GetFileName(filename);
+      if (string.IsNullOrEmpty(filename))
+        return false;
+
+      var f = filename.ToLower();
+
+      return SUPPORTED_FILES.ContainsKey(f) && 
+        SUPPORTED_FILES[f].IsChannelListFile;
     }
-   
+
     public static bool IsSupportedFile(string filename)
     {
       return (GetFileType(filename) != SCMFileContentType.unknown);
@@ -90,35 +91,46 @@ namespace SamsChannelEditor
 
     public static SCMFileContentType GetFileType(string filename)
     {
-      string f = Path.GetFileName(filename).ToLower();
-
-      if (SupportedFiles.ContainsKey(f))
-        return SupportedFiles[f].ContentType;
-      else
+      if (string.IsNullOrEmpty(filename))
         return SCMFileContentType.unknown;
+
+      filename = Path.GetFileName(filename);
+      if (string.IsNullOrEmpty(filename))
+        return SCMFileContentType.unknown; 
+
+      var f = filename.ToLower();
+
+      return SUPPORTED_FILES.ContainsKey(f) ? SUPPORTED_FILES[f].ContentType : SCMFileContentType.unknown;
     }
 
     public static bool IsSCMFile(string filename)
     {
-      return (Path.GetExtension(filename).ToLower() == ".scm");
+      if (string.IsNullOrEmpty(filename))
+        return false;
+
+      var extension = Path.GetExtension(filename);
+      if (string.IsNullOrEmpty(extension))
+        return false;
+
+      return (extension.ToLower() == ".scm");
     }
     #endregion
 
-    string _filename;
     string _tempDirectory;
-    MyZipFile _zipfile;
-    string[] _filesInside;
-    Dictionary<SCMFileContentType, MapFile> _mapfiles;
-    Dictionary<SCMFileContentType, OtherFile> _otherfiles;
+    readonly MyZipFile _zipfile;
+    readonly string[] _filesInside;
 
-    public string FileName { get { return _filename; } }
-    
+    readonly Dictionary<SCMFileContentType, MapFile> _mapfiles;
+    readonly Dictionary<SCMFileContentType, OtherFile> _otherfiles;
+
+    public string FileName { get; private set; }
+
     public SCMFile(string filename)
     {
-      if (log.IsDebugEnabled)
-        log.Debug("Open SCM File " + filename);
+      if (LOG.IsDebugEnabled)
+        LOG.Debug("Open SCM File " + filename);
 
-      _filename = filename;
+      FileName = filename;
       _zipfile = new MyZipFile(filename);
       _tempDirectory = _zipfile.ExtractFiles();
       _filesInside = GetContentFiles();
@@ -128,8 +140,8 @@ namespace SamsChannelEditor
 
     private string[] GetContentFiles()
     {
-      string[] files = Directory.GetFiles(_tempDirectory);
-      for (int i = 0; i < files.Length; i++)
+      var files = Directory.GetFiles(_tempDirectory);
+      for (var i = 0; i < files.Length; i++)
         files[i] = Path.GetFileName(files[i]);
 
       return files;
@@ -137,7 +149,7 @@ namespace SamsChannelEditor
 
     public void Close()
     {
-      _filename = "";
+      FileName = "";
       _tempDirectory = "";
       _zipfile.Close();      
     }
@@ -149,10 +161,10 @@ namespace SamsChannelEditor
 
     public string[] GetSupportedFiles()
     {
-      List<string> l = new List<string>();
-      foreach (string f in _filesInside)
+      var l = new List<string>();
+      foreach (var f in _filesInside)
       {
-        if (SCMFile.IsSupportedFile(f))
+        if (IsSupportedFile(f))
           l.Add(f);
       }
 
@@ -163,10 +175,10 @@ namespace SamsChannelEditor
     {
       MapFile mapFile = null;
 
-      SCMFileContentType filetype = SCMFile.GetFileType(filename);
+      var filetype = GetFileType(filename);
 
-      if (log.IsInfoEnabled)
-        log.Debug("Get MapFile " + filetype);
+      if (LOG.IsInfoEnabled)
+        LOG.Debug("Get MapFile " + filetype);
 
       if (_mapfiles.ContainsKey(filetype))
         mapFile = _mapfiles[filetype];
@@ -189,10 +201,10 @@ namespace SamsChannelEditor
     {
       OtherFile otherFile = null;
 
-      SCMFileContentType filetype = SCMFile.GetFileType(filename);
+      var filetype = GetFileType(filename);
 
-      if (log.IsInfoEnabled)
-        log.Debug("Get Other File " + filetype);
+      if (LOG.IsInfoEnabled)
+        LOG.Debug("Get Other File " + filetype);
 
       if (_otherfiles.ContainsKey(filetype))
         otherFile = _otherfiles[filetype];
@@ -200,10 +212,10 @@ namespace SamsChannelEditor
       {
         switch (filetype)
         {
-          case SCMFileContentType.CloneInfo:
+          case SCMFileContentType.cloneInfo:
             otherFile = new CloneInfoFile(filename, filetype);
             break;
-          case SCMFileContentType.SatDataBase:
+          case SCMFileContentType.satDataBase:
             otherFile = new SatDataBaseFile(filename);
             break;
         }
@@ -220,10 +232,10 @@ namespace SamsChannelEditor
 
     public void Save()
     {
-      if (log.IsInfoEnabled)
-        log.Info("Saving smv file");
+      if (LOG.IsInfoEnabled)
+        LOG.Info("Saving scm file");
 
-      foreach (KeyValuePair<SCMFileContentType, MapFile> kvp in _mapfiles)
+      foreach (var kvp in _mapfiles)
       {
         if (kvp.Value.Changed)
         {

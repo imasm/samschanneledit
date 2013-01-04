@@ -18,7 +18,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
@@ -27,7 +26,7 @@ namespace SamsChannelEditor
 {
   internal class CloneInfoFile: OtherFile
   {
-    byte[] _regtmp = new  byte[68];
+    readonly byte[] _regtmp = new  byte[68];
 
     public CloneInfoFile(string filename, SCMFileContentType maptype)
       :base(filename, maptype)
@@ -36,7 +35,7 @@ namespace SamsChannelEditor
 
     public override DataTable CreateDataTable()
     {
-      DataTable dt = new DataTable();
+      var dt = new DataTable();
       dt.Columns.Add("Country ID", typeof(String));
       dt.Columns.Add("TV Model", typeof(String));
       return dt;
@@ -44,15 +43,13 @@ namespace SamsChannelEditor
 
     public override bool ReadFile(string fullPathFileName)
     {
-      string pais;
-      string model;
-      using (FileStream fs = File.Open(fullPathFileName, FileMode.Open))
+      using (var fs = File.Open(fullPathFileName, FileMode.Open))
       {
         int readed = fs.Read(_regtmp, 0, _regtmp.Length);
         if (readed > 0)
         {
-          pais = StringUtils.Reverse(Encoding.ASCII.GetString(_regtmp, 0x00, 3));
-          model = Encoding.ASCII.GetString(_regtmp, 0x04, 15);
+          var pais = StringUtils.Reverse(Encoding.ASCII.GetString(_regtmp, 0x00, 3));
+          var model = Encoding.ASCII.GetString(_regtmp, 0x04, 15);
 
           DataRow dr = DataTable.NewRow();
           dr[0] = pais;

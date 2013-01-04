@@ -38,7 +38,7 @@ namespace SamsChannelEditor
     private static void InitLogging()
     {
       // Logs de depuració
-      FileInfo fi = new FileInfo("SamsChannelEditor.exe.Config");
+      var fi = new FileInfo("SamsChannelEditor.exe.Config");
       log4net.Config.XmlConfigurator.Configure(fi);
     }
   }

@@ -19,7 +19,7 @@
 
 namespace SamsChannelEditor
 {
-  partial class FAboutBox
+  sealed partial class FAboutBox
   {
     /// <summary>
     /// Required designer variable.

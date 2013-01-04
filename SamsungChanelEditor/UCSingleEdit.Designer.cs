@@ -1,4 +1,23 @@
-﻿namespace SamsChannelEditor
+﻿#region Copyright (C) 2011 Ivan Masmitja
+
+// Copyright (C) 2011 Ivan Masmitja
+// 
+// SamsChannelEditor is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// SamsChannelEditor is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with SamsChannelEditor. If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+namespace SamsChannelEditor
 {
   partial class UCSingleEdit
   {
@@ -143,7 +162,6 @@
       this.listView1.View = System.Windows.Forms.View.Details;
       this.listView1.AfterDragAndDrop += new SamsChannelEditor.ListViewDragAndDrop.AfterDragAndDropEventHandler(this.listView1_AfterDragAndDrop);
       this.listView1.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listView1_ItemChecked);
-      this.listView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.listView1_DragDrop);
       // 
       // UCSingleEdit
       // 

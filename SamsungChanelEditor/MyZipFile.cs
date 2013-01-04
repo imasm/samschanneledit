@@ -19,20 +19,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
-using System.IO;
 using log4net;
 
 namespace SamsChannelEditor
 {
   internal class MyZipFile
   {
-    static ILog log = LogManager.GetLogger("MyZipFile");
+    static readonly ILog LOG = LogManager.GetLogger("MyZipFile");
 
     string _zipfilename = "";
-    ZipFile _zipfile = null;
+    ZipFile _zipfile;
 
     public string FileName
     {
@@ -60,39 +59,38 @@ namespace SamsChannelEditor
     {
       string fout = "";
 
-      if (log.IsDebugEnabled)
-        log.Debug("Extract file " + fileinzip + " from " + this.FileName);
+      if (LOG.IsDebugEnabled)
+        LOG.Debug("Extract file " + fileinzip + " from " + FileName);
 
-      ZipEntry zentry = _zipfile.GetEntry(fileinzip);
-
+      var zentry = _zipfile.GetEntry(fileinzip);
       if (zentry == null)
         return "";
 
-      string directoryName = Path.GetDirectoryName(zentry.Name);
-      string fileName = Path.GetFileName(zentry.Name);
-
-      string temppath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+      var directoryName = Path.GetDirectoryName(zentry.Name);
+      var fileName = Path.GetFileName(zentry.Name);
+      var temppath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+      
       // create directory
-      if (directoryName != "")
-        directoryName = Path.Combine(temppath, directoryName);
-      else
+      if (string.IsNullOrEmpty(directoryName))
         directoryName = temppath;
+      else
+        directoryName = Path.Combine(temppath, directoryName);
 
       if (directoryName != "" && (!Directory.Exists(directoryName)))
         Directory.CreateDirectory(directoryName);
       
-      if (fileName != String.Empty)
+      if (!string.IsNullOrEmpty(fileName))
       {
         fout = Path.Combine(directoryName, fileName);
-        byte[] buffer = new byte[4096];
-        Stream zipStream = _zipfile.GetInputStream(zentry);
-        using (FileStream streamWriter = File.Create(fout))
+        var buffer = new byte[4096];
+        var zipStream = _zipfile.GetInputStream(zentry);
+        using (var streamWriter = File.Create(fout))
         {
           StreamUtils.Copy(zipStream, streamWriter, buffer);
         }
 
-        if (log.IsDebugEnabled)
-          log.Debug("File extracted: " + fout);
+        if (LOG.IsDebugEnabled)
+          LOG.Debug("File extracted: " + fout);
       }
 
       return fout;
@@ -100,44 +98,42 @@ namespace SamsChannelEditor
 
     public string ExtractFiles()
     {
-      string fout = "";
       //string temppath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-      string temppath = FileUtils.GetTempDirectory();
+      var temppath = FileUtils.GetTempDirectory();
 
-
-      if (log.IsDebugEnabled)
-        log.Debug("Extract files from " + this.FileName);
+      if (LOG.IsDebugEnabled)
+        LOG.Debug("Extract files from " + FileName);
 
       foreach (ZipEntry zentry in _zipfile)
       {
-
         if (zentry == null)
           return "";
 
-        string directoryName = Path.GetDirectoryName(zentry.Name);
-        string fileName = Path.GetFileName(zentry.Name);
+        var directoryName = Path.GetDirectoryName(zentry.Name);
+        var fileName = Path.GetFileName(zentry.Name);
 
         // create directory
-        if (directoryName != "")
-          directoryName = Path.Combine(temppath, directoryName);
-        else
+        if (string.IsNullOrEmpty(directoryName))
           directoryName = temppath;
+        else
+          directoryName = Path.Combine(temppath, directoryName);
 
         if (directoryName != "" && (!Directory.Exists(directoryName)))
           Directory.CreateDirectory(directoryName);
 
-        if (fileName != String.Empty)
+        if (!string.IsNullOrEmpty(fileName))
         {
-          fout = Path.Combine(directoryName, fileName);
-          byte[] buffer = new byte[4096];
-          Stream zipStream = _zipfile.GetInputStream(zentry);
-          using (FileStream streamWriter = File.Create(fout))
+          var fout = Path.Combine(directoryName, fileName);
+          var buffer = new byte[4096];
+          
+          var zipStream = _zipfile.GetInputStream(zentry);
+          using (var streamWriter = File.Create(fout))
           {
             StreamUtils.Copy(zipStream, streamWriter, buffer);
           }
 
-          if (log.IsDebugEnabled)
-            log.Debug("File extracted: " + fout);
+          if (LOG.IsDebugEnabled)
+            LOG.Debug("File extracted: " + fout);
         }
       }
 
@@ -158,14 +154,14 @@ namespace SamsChannelEditor
       // Both CommitUpdate and Close must be called.
       _zipfile.CommitUpdate();
 
-      if (log.IsDebugEnabled)
-        log.Debug(fileinzip + " added to " + this.FileName);
+      if (LOG.IsDebugEnabled)
+        LOG.Debug(fileinzip + " added to " + FileName);
     }
 
     public List<string> ListAllFiles()
     {
-      ZipFile zf = new ZipFile(_zipfilename);
-      List<string> list = new List<string>();
+      var zf = new ZipFile(_zipfilename);
+      var list = new List<string>();
       foreach (ZipEntry z in zf)
       {
         if (z.IsFile)

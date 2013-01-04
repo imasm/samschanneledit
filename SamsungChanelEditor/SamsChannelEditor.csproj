@@ -57,12 +57,11 @@
     <ApplicationIcon>TV.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Components\SharpZipLib_0860_Bin\net-20\ICSharpCode.SharpZipLib.dll</HintPath>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>Libs\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\..\..\..\Components\log4net-1.2.11\bin\net\2.0\release\log4net.dll</HintPath>
+      <HintPath>Libs\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -82,7 +81,6 @@
     <Compile Include="FInputBox.designer.cs">
       <DependentUpon>FInputBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListViewExtensions.cs" />
     <Compile Include="MapChannelAnalog.cs" />
     <Compile Include="SatDataBaseFile.cs" />
     <Compile Include="OtherFile.cs" />
@@ -127,6 +125,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UCSingleEdit.resx">
       <DependentUpon>UCSingleEdit.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -154,12 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ChangeLog.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="License_gpl3.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Readme.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="TV.ico" />

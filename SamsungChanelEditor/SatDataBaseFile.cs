@@ -18,7 +18,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
@@ -27,35 +26,33 @@ namespace SamsChannelEditor
 {
   internal class SatDataBaseFile: OtherFile
   {
-    byte[] _regtmp = new  byte[145];
+    readonly byte[] _regtmp;
 
     public SatDataBaseFile(string filename)
-      :base(filename, SCMFileContentType.SatDataBase)
+      :base(filename, SCMFileContentType.satDataBase)
     {
+      _regtmp = new  byte[145];
     }
 
     public override DataTable CreateDataTable()
     {
-      DataTable dt = new DataTable();
+      var dt = new DataTable();
       dt.Columns.Add("#", typeof(int));
       dt.Columns.Add("Satellite", typeof(String));
-      //dt.Columns.Add("Id", typeof(int));
       return dt;
     }
 
     public override bool ReadFile(string fullPathFileName)
     {
-      int idx = 0;
-
-      using (FileStream fs = File.Open(fullPathFileName, FileMode.Open))
+      var idx = 0;
+      using (var fs = File.Open(fullPathFileName, FileMode.Open))
       {
         while (fs.Read(_regtmp, 0, _regtmp.Length) == _regtmp.Length)
         {
           idx++;
-          DataRow dr = DataTable.NewRow();
+          var dr = DataTable.NewRow();
           dr[0] = idx;
           dr[1] = Encoding.Unicode.GetString(_regtmp, 0x0D, 50);
-          //dr[2] = BitConverter.ToInt16(_regtmp, 0x05);
           DataTable.Rows.Add(dr);
         }
       }
