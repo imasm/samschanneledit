@@ -76,7 +76,7 @@ namespace SamsChannelEditor
     {
       get
       {
-        return StringUtils.RemoveNulls(Encoding.Unicode.GetString(data, 65, 100));
+          return StringUtils.RemoveNulls(Encoding.BigEndianUnicode.GetString(data, 64, 100));
       }
     }
 
