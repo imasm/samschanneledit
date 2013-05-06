@@ -59,7 +59,7 @@ namespace SamsChannelEditor
     {
       get
       {
-        return Encoding.Unicode.GetString(data, 21, 10);
+        return Encoding.BigEndianUnicode.GetString(data, 20, 10);
       }
     }
 
