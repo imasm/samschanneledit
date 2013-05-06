@@ -62,7 +62,7 @@
       <HintPath>packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\..\..\..\Components\log4net-1.2.11\bin\net\2.0\release\log4net.dll</HintPath>
+      <HintPath>packages\log4net.2.0.0\lib\net20-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
