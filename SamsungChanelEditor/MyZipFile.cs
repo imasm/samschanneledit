@@ -153,7 +153,7 @@ namespace SamsChannelEditor
       // The "Add()" method will add or overwrite as necessary.
       // When the optional entryName parameter is omitted, the entry will be named
       // with the full folder path and without the drive e.g. "temp/folder/test1.txt".
-      _zipfile.Add(Path.GetFileName(fileinzip));
+      _zipfile.Add(fileinzip, Path.GetFileName(fileinzip));
 
       // Both CommitUpdate and Close must be called.
       _zipfile.CommitUpdate();
