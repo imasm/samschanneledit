@@ -582,7 +582,7 @@ namespace SamsChannelEditor
 	#region Edit channel data
 	private void EditListViewItem(ListViewHitTestInfo item)
 	{
-		if (item == null || item.SubItem == null)
+		if (item == null || item.SubItem.Text == string.Empty)
 		{
 			return;
 		}
@@ -594,6 +594,7 @@ namespace SamsChannelEditor
 		tbxEdit.Location = new Point(item.SubItem.Bounds.Location.X, item.SubItem.Bounds.Location.Y - 1);
 		tbxEdit.AutoSize = false;
 		tbxEdit.Height = item.Item.Bounds.Height + 1;
+		tbxEdit.Width = item.SubItem.Bounds.Width + 1;
 		tbxEdit.BorderStyle = BorderStyle.FixedSingle;
 		tbxEdit.KeyDown += new KeyEventHandler(tbxEdit_KeyDown);
 		tbxEdit.LostFocus += new EventHandler(tbxEdit_LostFocus);
@@ -682,9 +683,32 @@ namespace SamsChannelEditor
 	private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
 	{
 		ListViewHitTestInfo info = listView1.HitTest(e.Location);
+
+		Point p = listView1.PointToClient(Cursor.Position);
+
+		if (p.X <= listView1.Columns[0].Width)
+		{
+			return;
+		}
+
 		EditListViewItem(info);
 	}
 	#endregion
+
+	/// <summary>
+	/// Change checked state only if item was clicked
+	/// </summary>
+	/// <param name="sender"></param>
+	/// <param name="e"></param>
+	private void listView1_ItemCheck(object sender, ItemCheckEventArgs e)
+	{
+		Point p = listView1.PointToClient(Cursor.Position);
+
+		if (p.X > listView1.Columns[0].Width)
+		{
+			e.NewValue = e.CurrentValue;
+		}
+	}
 
   }
 }
