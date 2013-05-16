@@ -193,6 +193,22 @@ namespace SamsChannelEditor
 			}
 		}
     }
+
+	public virtual bool Locked
+	{
+		get { return data[31] == 0x01; }
+		set
+		{
+			if (value)
+			{
+				data[31] = 0x01;
+			}
+			else
+			{
+				data[31] = 0x00;
+			}
+		}
+	}
     
     public virtual  bool IsOk()
     {
