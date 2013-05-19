@@ -76,6 +76,11 @@ License
 
 Last changelog
 --------------
+### Version 0.11 ###
+
+* Fixed channel names output. Names in Russian output correctly. Other languages must do so
+* Channel data edit feature realized. You can edit channel name and favourites.
+
 ### Version 0.10 ###
 
 * Applied a patch created by Andreas Winter to save sort order to file and restore after.
