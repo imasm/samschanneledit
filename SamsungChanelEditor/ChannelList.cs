@@ -17,9 +17,9 @@
 
 #endregion
 
-using System;
-using System.IO;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Text;
 
 namespace SamsChannelEditor
@@ -33,79 +33,59 @@ namespace SamsChannelEditor
 
     private static int CompareChanelByNumber(IChannel x, IChannel y)
     {
-      if ((!ChannelIsOk(x)) || (!ChannelIsOk(y)))
-      {
-        if (!ChannelIsOk(x))
-        {
-          if (!ChannelIsOk(y))
-            return 0;
-          else
-            return 1;
-        }
-        else
-          return -1;
-      }
-      else
-      {
+      if ((ChannelIsOk(x)) && (ChannelIsOk(y)))
         return x.Number.CompareTo(y.Number);
-      }
+
+      if (ChannelIsOk(x))
+        return -1;
+      
+      if (ChannelIsOk(y))
+        return 1;
+
+      return 0;
     }
 
     private static int CompareChanelByFilePos(IChannel x, IChannel y)
     {
-      if ((!ChannelIsOk(x)) || (!ChannelIsOk(y)))
-      {
-        if (!ChannelIsOk(x))
-        {
-          if (!ChannelIsOk(y))
-            return 0;
-          else
-            return 1;
-        }
-        else
-          return -1;
-      }
-      else
-      {
+      if ((ChannelIsOk(x)) && (ChannelIsOk(y)))
         return x.FilePosition.CompareTo(y.FilePosition);
-      }
-    }
 
+      if (ChannelIsOk(x))
+        return -1;
+
+      if (ChannelIsOk(y))
+        return 1;
+
+      return 0;
+    }
 
     private static int CompareChanelByName(IChannel x, IChannel y)
     {
-      
-      if ((!ChannelIsOk(x)) || (!ChannelIsOk(y)))
-      {
-        if (!ChannelIsOk(x))
-        {
-          if (!ChannelIsOk(y))
-            return 0;
-          else
-            return 1;
-        }
-        else
-          return -1;
-      }
-      else
-      {
-        return x.Name.CompareTo(y.Name);
-      }
+      if ((ChannelIsOk(x)) && (ChannelIsOk(y)))
+        return System.String.Compare(x.Name, y.Name, System.StringComparison.Ordinal);
+
+      if (ChannelIsOk(x))
+        return -1;
+
+      if (ChannelIsOk(y))
+        return 1;
+
+      return 0;
     }
 
     public void SortByChanelNum()
     {
-      this.Sort(CompareChanelByNumber);
+      Sort(CompareChanelByNumber);
     }
 
     public void SortByFilePosition()
     {
-      this.Sort(CompareChanelByFilePos);
+      Sort(CompareChanelByFilePos);
     }
 
     public void SortByName()
     {
-      this.Sort(CompareChanelByName);
+      Sort(CompareChanelByName);
     }
 
     public void SwapChannels(int idx1, int idx2)
@@ -117,7 +97,7 @@ namespace SamsChannelEditor
 
     internal void SaveOrderTo(string filename)
     {
-      using (StreamWriter sw = new StreamWriter(filename, false, Encoding.Unicode))
+      using (var sw = new StreamWriter(filename, false, Encoding.Unicode))
       {
         sw.Write("Number".PadRight(10));
         sw.Write("Name".PadRight(100));
@@ -125,13 +105,13 @@ namespace SamsChannelEditor
         sw.Write("ONID ");
         sw.WriteLine();
 
-        this.SortByChanelNum();
+        SortByChanelNum();
         foreach (IChannel ch in this)
         {
           if (ch.IsOk() && (!ch.Deleted))
           {
-            sw.Write(ch.Number.ToString().PadRight(10));
-            sw.Write(ch.Name.ToString().PadRight(100));
+            sw.Write(ch.Number.ToString(CultureInfo.InvariantCulture).PadRight(10));
+            sw.Write(ch.Name.PadRight(100));
             sw.Write(ch.Multiplex_TSID.ToString("X4") + " ");
             sw.Write(ch.Multiplex_ONID.ToString("X4") + " ");
             sw.WriteLine();
@@ -145,7 +125,6 @@ namespace SamsChannelEditor
 
     internal int SetOrderFrom(string filename)
     {
-      string linia;
       const short notusedix = 16383;
       short curix = notusedix;
       foreach (IChannel ch in this)
@@ -155,14 +134,14 @@ namespace SamsChannelEditor
         
       char[] charsToTrim = {' ', '\t', ',', ';'};
 
-      using (StreamReader sr = new StreamReader(filename, Encoding.Unicode))
+      using (var sr = new StreamReader(filename, Encoding.Unicode))
       {
           if (sr.ReadLine() != null) // ignore first line
           {
-              while ((linia = sr.ReadLine()) != null)
+            string linia;
+            while ((linia = sr.ReadLine()) != null)
               {
-                  int num = StringUtils.TryToInt32(StringUtils.Copy(linia, 0, 10), -1);
-                  string nom = StringUtils.Copy(linia, 10, 100);
+                  var nom = StringUtils.Copy(linia, 10, 100);
                   nom = nom.Trim(charsToTrim);
 
                   foreach (IChannel ch in this)
@@ -173,7 +152,7 @@ namespace SamsChannelEditor
                       }
               }
           }
-          sr.Close();
+        sr.Close();
       }
       SortByChanelNum();
       return curix;

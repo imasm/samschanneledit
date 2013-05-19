@@ -29,12 +29,13 @@ namespace SamsChannelEditor
 {
   internal class MapFile: IChannelFile
   {
-    static ILog log = LogManager.GetLogger("MapFile");
+    static readonly ILog LOG = LogManager.GetLogger("MapFile");
     
     public int RegSize {get; private set; }
     public int RegCount {get; private set; }
- 
-    protected byte[] _regtmp;
+
+    protected byte[] Regtmp { get; private set; }
+
     public ChannelList Channels { get; private set; }
     public string FileName { get; set; }
     public SCMFileContentType MapType { get; private set; }
@@ -50,7 +51,7 @@ namespace SamsChannelEditor
       RegSize = 0;
       RegCount = 1000; // nº of register in a file
 
-      _regtmp = null;
+      Regtmp = null;
       Channels = new ChannelList();
     }
 
@@ -61,7 +62,7 @@ namespace SamsChannelEditor
 
     public void ConvertToTxt(string filename)
     {
-      using (StreamWriter sw = new StreamWriter(filename))
+      using (var sw = new StreamWriter(filename))
       {
         foreach (IChannel ch in Channels)
         {
@@ -72,9 +73,9 @@ namespace SamsChannelEditor
       }
     }
 
-    private string ConvertToAscii(byte[] bytes, int start, int length)
+    private static string ConvertToAscii(byte[] bytes, int start, int length)
     {
-      StringBuilder sb = new StringBuilder();
+      var sb = new StringBuilder();
 
       char[] chars = Encoding.ASCII.GetChars(bytes, start, length);
       for (int i = start; i < start + length; i++)
@@ -92,13 +93,13 @@ namespace SamsChannelEditor
       return sb.ToString();
     }
 
-    private int[] GetSizeInSettings(SCMFileContentType maptype)
+    private static int[] GetSizeInSettings(SCMFileContentType maptype)
     {
       int[] sizes = null;
       string key;
 
       if (maptype != SCMFileContentType.unknown)
-         key = "fs_" + maptype.ToString();
+         key = "fs_" + maptype;
       else
          key = "fs_default";
 
@@ -111,15 +112,15 @@ namespace SamsChannelEditor
         if (settings != null)
         {
           string[] strsizes = settings.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-          List<int> valors = new List<int>();
-          for (int i = 0; i < strsizes.Length; i++)
+          var valors = new List<int>();
+          for (var i = 0; i < strsizes.Length; i++)
           {
-            int size = 0;
+            int size;
             if (int.TryParse(strsizes[i].Trim(), out size))
               valors.Add(size);
             else
-              if (log.IsErrorEnabled)
-                log.Error("Bad file size in settings [" + key + "] : " + strsizes[i]);
+              if (LOG.IsErrorEnabled)
+                LOG.Error("Bad file size in settings [" + key + "] : " + strsizes[i]);
           }
 
           if (valors.Count > 0)
@@ -130,8 +131,8 @@ namespace SamsChannelEditor
       catch (ConfigurationErrorsException e)
       {
         sizes = null;
-        if (log.IsErrorEnabled)
-          log.Error("Error reading settings [" + key + "] : ", e);
+        if (LOG.IsErrorEnabled)
+          LOG.Error("Error reading settings [" + key + "] : ", e);
       }
       
       return sizes;
@@ -142,7 +143,7 @@ namespace SamsChannelEditor
       int[] sizes = GetSizeInSettings(maptype);
       if (sizes != null)
       {
-        foreach (int recordsize in sizes)
+        foreach (var recordsize in sizes)
           if (filelen % (recordsize * 1000) == 0)
             return recordsize;
       }
@@ -150,7 +151,7 @@ namespace SamsChannelEditor
       sizes = GetSizeInSettings(SCMFileContentType.unknown);
       if (sizes != null)
       {
-        foreach (int recordsize in sizes)
+        foreach (var recordsize in sizes)
           if (filelen % (recordsize * 1000) == 0)
             return recordsize;
       }
@@ -162,10 +163,10 @@ namespace SamsChannelEditor
     {
       Changed = false;
 
-      string fullPathFileName = Path.Combine(directory, this.FileName);
+      string fullPathFileName = Path.Combine(directory, FileName);
 
-      if (log.IsDebugEnabled)
-        log.Debug("Read MapFile " + fullPathFileName);
+      if (LOG.IsDebugEnabled)
+        LOG.Debug("Read MapFile " + fullPathFileName);
 
       int index = 0;
 
@@ -248,12 +249,12 @@ namespace SamsChannelEditor
 
       RegCount = (int)(filelen / RegSize);
 
-      _regtmp = new byte[RegSize];
+      Regtmp = new byte[RegSize];
 
       Channels.Clear();
       using (FileStream fs = File.Open(fullPathFileName, FileMode.Open))
       {
-        int readed = fs.Read(_regtmp, 0, _regtmp.Length);
+        int readed = fs.Read(Regtmp, 0, Regtmp.Length);
         while (readed > 0)
         {
           IChannel ch;
@@ -261,20 +262,20 @@ namespace SamsChannelEditor
           switch (MapType)
           {
             case SCMFileContentType.mapSateD:
-              ch = new StateChannel(index++, _regtmp);
+              ch = new StateChannel(index++, Regtmp);
               break;
 
             case SCMFileContentType.mapAstraHDPlusD:
-              ch = new AstraHDChannel(index++, _regtmp);
+              ch = new AstraHDChannel(index++, Regtmp);
               break;
 
             case SCMFileContentType.mapAirA:
             case SCMFileContentType.mapCableA:
-              ch = new MapChannelAnalog(index++, _regtmp);
+              ch = new MapChannelAnalog(index++, Regtmp);
               break;
 
             default:
-              ch = new MapChannel(index++, _regtmp);
+              ch = new MapChannel(index++, Regtmp);
               break;
           }
 
@@ -288,7 +289,7 @@ namespace SamsChannelEditor
           if (ch.IsOk())
             Channels.Add(ch);
 
-          readed = fs.Read(_regtmp, 0, _regtmp.Length);
+          readed = fs.Read(Regtmp, 0, Regtmp.Length);
         }
         fs.Close();
       }
@@ -300,48 +301,48 @@ namespace SamsChannelEditor
       if (RegSize == 0)
         throw new NotSupportedException("Regsize is 0, Load a file before save it");
       
-      string fullPathFileName = Path.Combine(directory, this.FileName);
+      string fullPathFileName = Path.Combine(directory, FileName);
 
-      if (log.IsDebugEnabled)
-        log.Debug("Saving " + fullPathFileName);
+      if (LOG.IsDebugEnabled)
+        LOG.Debug("Saving " + fullPathFileName);
 
 
-      if ((this.MapType == SCMFileContentType.mapAirA) || (this.MapType == SCMFileContentType.mapCableA))
+      if ((MapType == SCMFileContentType.mapAirA) || (MapType == SCMFileContentType.mapCableA))
       {
         // In Analog files write channels in the specified order
-        this.Channels.SortByChanelNum();
+        Channels.SortByChanelNum();
       }
       else
       {
         // Sort de channels as it appear in original file. 
-        this.Channels.SortByFilePosition();
+        Channels.SortByFilePosition();
       }
 
       //Save (Overwrite if it exists)
       int idx = 0;
-      using (FileStream fs = File.Open(fullPathFileName, FileMode.Create))
+      using (var fs = File.Open(fullPathFileName, FileMode.Create))
       {
         foreach (IChannel ch in Channels)
         {
-          if (!ch.Deleted)
-          {
-            fs.Write(ch.Data, 0, ch.Data.Length);
-            idx++;
-          }
+          if (ch.Deleted) 
+            continue;
+
+          fs.Write(ch.Data, 0, ch.Data.Length);
+          idx++;
         }
 
         // Fill the file with NULL registers
-        for (int i = 0; i < _regtmp.Length; i++)
-          _regtmp[i] = 0;
+        for (var i = 0; i < Regtmp.Length; i++)
+          Regtmp[i] = 0;
 
-        for (int i = idx; i < this.RegCount; i++)
-          fs.Write(_regtmp, 0, _regtmp.Length);
+        for (var i = idx; i < RegCount; i++)
+          fs.Write(Regtmp, 0, Regtmp.Length);
 
         fs.Close();
       }
 
-      if (log.IsDebugEnabled)
-        log.Debug(_regtmp.Length + "channels saved.");
+      if (LOG.IsDebugEnabled)
+        LOG.Debug(Regtmp.Length + "channels saved.");
 
       return true;
     }

@@ -18,46 +18,12 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace SamsChannelEditor
 {
     public partial class FInputBox : Form
     {
-        /*
-        private class InputBoxValidateEventArgs : EventArgs
-        {
-            private string m_UserText;
-            public string UserText
-            {
-                get { return m_UserText; }
-            }
-
-            private object m_Valor;            
-            public object Valor
-            {
-                get { return m_Valor;}
-                set { m_Valor = value;}
-            }
-
-            public InputBoxValidateEventArgs(string usertext)
-                : base()
-            {
-                m_UserText = usertext;
-                m_Valor = null;
-            }
-        }
-
-        private delegate bool InputBoxValidateDelegate(object sender, InputBoxValidateEventArgs e);
-
-        InputBoxValidateDelegate OnValidate;
-        */
-
         public string Value
         {
             get { return txtValor.Text; }
@@ -78,11 +44,11 @@ namespace SamsChannelEditor
 
         public DialogResult Demana(string caption, string missatge, string defaulttext)
         {
-            this.Text = caption;
+            Text = caption;
             label1.Text = missatge;
             Value = defaulttext;
 
-            return this.ShowDialog();
+            return ShowDialog();
         }
 
         private void FInputBox_KeyDown(object sender, KeyEventArgs e)
@@ -100,14 +66,14 @@ namespace SamsChannelEditor
 
         private void Accept()
         {            
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void Cancel()
         {
-            this.DialogResult = DialogResult.Cancel;
-            this.Close();
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -134,7 +100,7 @@ namespace SamsChannelEditor
         public DialogResult DemanaDecimal()
         {
             
-            return this.ShowDialog();
+            return ShowDialog();
         }*/
 
         /*

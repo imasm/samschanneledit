@@ -18,33 +18,24 @@
 #endregion
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 using log4net;
 
 namespace SamsChannelEditor
 {
   public partial class FMain : Form
   {
-    static ILog log = LogManager.GetLogger("Main");
+    static readonly ILog LOG = LogManager.GetLogger("Main");
 
     const string SCM_FILTER = "scm file (*.scm)|*.scm";
     const string ALL_FILTER = "All files (*.*)|*.*";
 
-    MapFile _mapFile = null;
-    OtherFile _otherFile = null;
-
+    MapFile _mapFile;
+    OtherFile _otherFile;
     string _currentFilename = "";
-
-    //string _scmFilename = "";
-
-    SCMFile _scmFile = null;
+    SCMFile _scmFile;
 
     public FMain()
     {
@@ -55,47 +46,49 @@ namespace SamsChannelEditor
 #endif
 
       statusLabel.Text = "";      
-    }    
+    }
 
     private void mnLoad_Click(object sender, EventArgs e)
     {
-      OpenFileDialog ofd = new OpenFileDialog();
-      ofd.Filter = SCM_FILTER + "|"  + ALL_FILTER;
-      ofd.FilterIndex = 0;
-      ofd.Multiselect = false;
-
-      if (ofd.ShowDialog() == DialogResult.OK)
-      {
-        CloseAll();
-
-        _currentFilename = ofd.FileName;
-        ucSingleEdit1.Clear();
-
-        WriteStatus("Loading file...");
-
-        if (SCMFile.IsSCMFile(ofd.FileName))
+      var ofd = new OpenFileDialog
         {
-          try
-          {
-            Cursor.Current = Cursors.WaitCursor;
-            _scmFile = new SCMFile(ofd.FileName);
-            RefreshTreeview();
-            WriteStatus(ofd.FileName);
-          }
-          catch (Exception ex)
-          {
-            Cursor.Current = Cursors.Default;
-            ShowError(ex, "Open file");
-            CloseAll();
-          }
-          finally
-          {
-            Cursor.Current = Cursors.Default;
-          }          
-        }   
-        else
-          ShowInfo("Incorrect File extension : " + _currentFilename, "Open file");
+          Filter = SCM_FILTER + "|" + ALL_FILTER, 
+          FilterIndex = 0, 
+          Multiselect = false
+        };
+
+      if (ofd.ShowDialog() != DialogResult.OK) 
+        return;
+
+      CloseAll();
+
+      _currentFilename = ofd.FileName;
+      ucSingleEdit1.Clear();
+
+      WriteStatus("Loading file...");
+
+      if (SCMFile.IsSCMFile(ofd.FileName))
+      {
+        try
+        {
+          Cursor.Current = Cursors.WaitCursor;
+          _scmFile = new SCMFile(ofd.FileName);
+          RefreshTreeview();
+          WriteStatus(ofd.FileName);
+        }
+        catch (Exception ex)
+        {
+          Cursor.Current = Cursors.Default;
+          ShowError(ex, "Open file");
+          CloseAll();
+        }
+        finally
+        {
+          Cursor.Current = Cursors.Default;
+        }
       }
+      else
+        ShowInfo("Incorrect File extension : " + _currentFilename, "Open file");
     }
 
     private void RefreshTreeview()
@@ -104,20 +97,19 @@ namespace SamsChannelEditor
       if (_scmFile == null)
         return;
 
-      TreeNode tn = treeView1.Nodes.Add(Path.GetFileName(_scmFile.FileName));
-      string[] all_files = _scmFile.GetAllFiles();
-      string[] supported_files = _scmFile.GetSupportedFiles();
+      TreeNode parentTreeNode = treeView1.Nodes.Add(Path.GetFileName(_scmFile.FileName));
+      string[] allFiles = _scmFile.GetAllFiles();
 
-      foreach (string f in all_files)
+      foreach (string f in allFiles)
       {
-        TreeNode new_tn = tn.Nodes.Add(f);
+        TreeNode treeNode = parentTreeNode.Nodes.Add(f);
         if (!SCMFile.IsSupportedFile(f))
-          new_tn.ForeColor = Color.LightGray;
+          treeNode.ForeColor = Color.LightGray;
       }
 
       treeView1.ExpandAll();
-      if (tn.Nodes.Count > 0)
-        treeView1.SelectedNode = tn.Nodes[0];
+      if (parentTreeNode.Nodes.Count > 0)
+        treeView1.SelectedNode = parentTreeNode.Nodes[0];
       else
         CloseAll();
     }
@@ -194,22 +186,21 @@ namespace SamsChannelEditor
 
     private void mnSave_Click(object sender, EventArgs e)
     {
-      if (this._mapFile != null)
-      {
-        if (this._mapFile.Channels.Count == 0)
-        {
-          ShowError("Channel list is empty", "Error");
-          return;
-        }      
+      if (_mapFile == null) return;
 
-        if ((_scmFile != null) && (_scmFile.FileName != ""))
-        {
-          if (Save())
-          {
-            if (statusLabel.Text.StartsWith("*"))
-              statusLabel.Text = statusLabel.Text.Substring(1);
-          }
-        }        
+      if (_mapFile.Channels.Count == 0)
+      {
+        ShowError("Channel list is empty", "Error");
+        return;
+      }
+
+      if ((_scmFile == null) || (_scmFile.FileName == "")) 
+        return;
+
+      if (Save())
+      {
+        if (statusLabel.Text.StartsWith("*"))
+          statusLabel.Text = statusLabel.Text.Substring(1);
       }
     }
      
@@ -248,45 +239,45 @@ namespace SamsChannelEditor
 
     private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
     {
-      if ((treeView1.Nodes.Count > 0) && (e.Node != treeView1.Nodes[0]))
+      if ((treeView1.Nodes.Count <= 0) || (e.Node == treeView1.Nodes[0])) 
+        return;
+
+      _currentFilename = e.Node.Text;
+
+      try
       {
-        _currentFilename = e.Node.Text;
+        Cursor.Current = Cursors.WaitCursor;
 
-        try
+        // Reorder current map file if its loaded
+        if (_mapFile != null)
+          ucSingleEdit1.SaveState();
+
+        ucSingleEdit1.Clear();
+
+        _mapFile = null;
+        _otherFile = null;
+
+        if (SCMFile.IsSupportedFile(_currentFilename))
         {
-          Cursor.Current = Cursors.WaitCursor;
-
-          // Reorder current map file if its loaded
-          if (_mapFile != null)
-            ucSingleEdit1.SaveState();
-
-          ucSingleEdit1.Clear();
-
-          _mapFile = null;
-          _otherFile = null;
-
-          if (SCMFile.IsSupportedFile(_currentFilename))
+          if (SCMFile.IsChannelMapFile(_currentFilename))
           {
-            if (SCMFile.IsChannelMapFile(_currentFilename))
-            {
-              WriteStatus("Reading channels...");
-              if (OpenMapFile(_currentFilename))
-                WriteChanels();
-            }
-            else
-            {
-              WriteStatus("Reading file...");
-              if (OpenOtherFile(_currentFilename))
-                WriteOtherFile();
-            }
+            WriteStatus("Reading channels...");
+            if (OpenMapFile(_currentFilename))
+              WriteChanels();
           }
           else
-            WriteStatus("File not supported.");
+          {
+            WriteStatus("Reading file...");
+            if (OpenOtherFile(_currentFilename))
+              WriteOtherFile();
+          }
         }
-        finally
-        {
-          Cursor.Current = Cursors.Default;
-        }
+        else
+          WriteStatus("File not supported.");
+      }
+      finally
+      {
+        Cursor.Current = Cursors.Default;
       }
     }  
 
@@ -295,24 +286,24 @@ namespace SamsChannelEditor
     #region ErrorMessages
     private void ShowError(string message, string caption)
     {
-      if (log.IsErrorEnabled)
-        log.Error(caption + ": " + message);
+      if (LOG.IsErrorEnabled)
+        LOG.Error(caption + ": " + message);
 
       MessageBox.Show(this, message, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 
     private void ShowError(Exception ex, string caption)
     {
-      if (log.IsErrorEnabled)
-        log.Error(caption, ex);
+      if (LOG.IsErrorEnabled)
+        LOG.Error(caption, ex);
 
       MessageBox.Show(this, ex.Message, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
 
     private void ShowInfo(string message, string caption)
     {
-      if (log.IsInfoEnabled)
-        log.Info(caption + ": " + message);
+      if (LOG.IsInfoEnabled)
+        LOG.Info(caption + ": " + message);
 
       MessageBox.Show(this, message, caption, MessageBoxButtons.OK, MessageBoxIcon.Error);
     }
@@ -335,14 +326,14 @@ namespace SamsChannelEditor
     
     public void WriteStatus(string mesg)
     {
-      if (!this.InvokeRequired)
+      if (!InvokeRequired)
       {
         statusLabel.Text = mesg;
         statusStrip1.Refresh();
       }
       else
       {
-        Action<string> req = new Action<string>(WriteStatus);
+        Action<string> req = WriteStatus;
         req.Invoke(mesg);
       }
     }
@@ -354,7 +345,7 @@ namespace SamsChannelEditor
         switch (e.Modifiers)
         {
           case Keys.Control:
-            FInputBox f = new FInputBox();
+            var f = new FInputBox();
             if (f.Demana("Entre search text:", "Search :", ucSingleEdit1.GetLastSearchText()) == DialogResult.OK)
             {
               ucSingleEdit1.JumpToNext(f.Value);

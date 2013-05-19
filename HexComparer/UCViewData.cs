@@ -1,4 +1,23 @@
-﻿using System;
+﻿#region Copyright (C) 2011 Ivan Masmitja
+
+// Copyright (C) 2011 Ivan Masmitja
+// 
+// SamsChannelEditor is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// SamsChannelEditor is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with SamsChannelEditor. If not, see <http://www.gnu.org/licenses/>.
+
+#endregion
+
+using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -6,10 +25,9 @@ namespace HexComparer
 {
   public partial class UCViewData : UserControl
   {
-    bool _showInHexadecimal = false;
-    byte[] _lastData = null;
-    int _lastIdx = 0;
-
+    bool _showInHexadecimal;
+    byte[] _lastData;
+    int _lastIdx;
 
     [Browsable(true)]
     public override string Text
@@ -17,7 +35,6 @@ namespace HexComparer
       get { return groupBox1.Text; }
       set { groupBox1.Text = value; }
     }
-
 
     [Browsable(true), DefaultValue(false)]
     public bool ShowInHexadecimal
@@ -31,7 +48,6 @@ namespace HexComparer
       }
     }
 
-
     public UCViewData()
     {
       ShowInHexadecimal = false;
@@ -43,29 +59,14 @@ namespace HexComparer
       _lastData = data;
       _lastIdx = idx;
 
-      string format = ShowInHexadecimal ? "X2" : "d";
+      var format = ShowInHexadecimal ? "X2" : "d";
 
       txtIndex.Text = idx.ToString(format);
 
-      if (idx < data.Length)
-        txtByte.Text = data[idx].ToString(format);
-      else
-        txtByte.Text = "";
-
-      if (idx <= data.Length - 2)
-        txtInt16.Text = BitConverter.ToUInt16(data, idx).ToString(format);
-      else
-        txtInt16.Text = "";
-
-      if (idx <= data.Length - 4)
-        txtInt32.Text = BitConverter.ToUInt32(data, idx).ToString(format);
-      else
-        txtInt32.Text = "";
-
-      if (idx <= data.Length - 8)
-        txtInt64.Text = BitConverter.ToUInt64(data, idx).ToString(format);
-      else
-        txtInt64.Text = "";
+      txtByte.Text = idx < data.Length ? data[idx].ToString(format) : "";
+      txtInt16.Text = idx <= data.Length - 2 ? BitConverter.ToUInt16(data, idx).ToString(format) : "";
+      txtInt32.Text = idx <= data.Length - 4 ? BitConverter.ToUInt32(data, idx).ToString(format) : "";
+      txtInt64.Text = idx <= data.Length - 8 ? BitConverter.ToUInt64(data, idx).ToString(format) : "";
     }
   }
 }

@@ -24,18 +24,20 @@ using System.Diagnostics;
 
 namespace SamsChannelEditor
 {
-  partial class FAboutBox : Form
+  sealed partial class FAboutBox : Form
   {
     public FAboutBox()
     {
       InitializeComponent();
-      this.Text = String.Format("About {0}", AssemblyTitle);
-      this.labelProductName.Text = AssemblyProduct;
-      this.labelVersion.Text = AssemblyVersion.ToString();
-      this.labelCopyright.Text = AssemblyCopyright;
-      this.labelCompanyName.Text = AssemblyCompany;
-      this.textBoxDescription.Text = AssemblyDescription;
-      this.linkLabelWebsite.Text = @"http://samschanneledit.sourceforge.net/";
+      Text = String.Format("About {0}", AssemblyTitle);
+      labelProductName.Text = AssemblyProduct;
+      labelVersion.Text = AssemblyVersion;
+      labelCopyright.Text = AssemblyCopyright;
+      labelCompanyName.Text = AssemblyCompany;
+      textBoxDescription.Text = AssemblyDescription;
+      
+      //linkLabelWebsite.Text = @"http://samschanneledit.sourceforge.net/";
+      linkLabelWebsite.Text = @"https://github.com/imasm/samschanneledit";
     }
 
     #region Assembly Attribute Accessors
@@ -47,7 +49,7 @@ namespace SamsChannelEditor
         object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
         if (attributes.Length > 0)
         {
-          AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
+          var titleAttribute = (AssemblyTitleAttribute)attributes[0];
           if (titleAttribute.Title != "")
           {
             return titleAttribute.Title;
@@ -120,13 +122,13 @@ namespace SamsChannelEditor
 
     public new static DialogResult Show()
     {
-      FAboutBox f = new FAboutBox();
+      var f = new FAboutBox();
       return f.ShowDialog();
     }
 
     private void linkLabelWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
     {
-      ProcessStartInfo sInfo = new ProcessStartInfo(this.linkLabelWebsite.Text);
+      var sInfo = new ProcessStartInfo(linkLabelWebsite.Text);
       Process.Start(sInfo);
     }
   }

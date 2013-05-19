@@ -18,7 +18,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace SamsChannelEditor
@@ -40,37 +39,33 @@ namespace SamsChannelEditor
     public int FilePosition { get; set; }    
     public bool Deleted { get { return _isDeleted;} set {_isDeleted = value ;} }
     public bool Active { get { return !_isDeleted; } set { _isDeleted = !value; } }
-  
-    private byte[] data;
 
-    public byte[] Data
-    {
-      get { return data; }
-    }
+    public byte[] Data { get; private set; }
 
     public MapChannel(int pos, byte[] buffer)
     {
-      this._isDeleted = false;
-      this.FilePosition = pos;
-      this.data = (byte[])buffer.Clone();
+      _isDeleted = false;
+      FilePosition = pos;
+      Data = (byte[])buffer.Clone();
     }
 
     public short Number
     {
       get
       {
-        return BitConverter.ToInt16(data, 0);
+        return BitConverter.ToInt16(Data, 0);
       }
 
       set
       {
-        Int16 sh = (Int16)value;
+        Int16 sh = value;
         byte[] b = BitConverter.GetBytes(sh);
 
-        data[0] = b[0];
-        data[1] = b[1];
+        Data[0] = b[0];
+        Data[1] = b[1];
       }
     }
+
 
 	public virtual string Name
 	{
@@ -90,18 +85,14 @@ namespace SamsChannelEditor
     {
       get
       {
-          MapChannelType ct = GetMapChannelType(data[15]);
-          if (ct != MapChannelType.Other)
-              return ct.ToString();
-          else
-              return "";
-        
+        MapChannelType ct = GetMapChannelType(Data[15]);
+        return ct != MapChannelType.Other ? ct.ToString() : "";
       }
     }
 
     public virtual bool IsEncrypted
     {
-      get { return (data[24] == 1); }
+      get { return (Data[24] == 1); }
     }
 
     public virtual long Frequency
@@ -112,22 +103,22 @@ namespace SamsChannelEditor
 
     public virtual ushort Network
     {
-      get { return BitConverter.ToUInt16(data, 34); }
+      get { return BitConverter.ToUInt16(Data, 34); }
     }
 
     public virtual ushort ServiceID
     {
-      get { return BitConverter.ToUInt16(data, 6); }
+      get { return BitConverter.ToUInt16(Data, 6); }
     }
 
     public virtual ushort Multiplex_TSID
     {
-      get { return BitConverter.ToUInt16(data, 48); }
+      get { return BitConverter.ToUInt16(Data, 48); }
     }
 
     public virtual ushort Multiplex_ONID
     {
-      get { return BitConverter.ToUInt16(data, 32); }
+      get { return BitConverter.ToUInt16(Data, 32); }
     }
 
     public virtual bool FavoriteList1
@@ -212,7 +203,7 @@ namespace SamsChannelEditor
     
     public virtual  bool IsOk()
     {
-      return (BitConverter.ToInt16(data, 0) > 0);
+      return (BitConverter.ToInt16(Data, 0) > 0);
     }
 
     public byte CalcChecksum()
@@ -223,11 +214,11 @@ namespace SamsChannelEditor
     public virtual byte CalcChecksum(bool saveindata)
     {
       byte ck = 0;
-      for (int i = 0; i < data.Length - 1; i++)
-        ck += data[i];
+      for (int i = 0; i < Data.Length - 1; i++)
+        ck += Data[i];
 
       if (saveindata)
-        data[data.Length - 1] = ck;
+        Data[Data.Length - 1] = ck;
 
       return ck;
     }

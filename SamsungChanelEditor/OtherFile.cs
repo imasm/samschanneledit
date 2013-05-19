@@ -17,19 +17,15 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Data;
 using System.IO;
 using log4net;
-
 
 namespace SamsChannelEditor
 {
   internal abstract class OtherFile
   {
-    static ILog log = LogManager.GetLogger("OtherFile");
+    static readonly ILog LOG = LogManager.GetLogger("OtherFile");
 
     public string FileName { get; set; }
     public SCMFileContentType MapType { get; private set; }
@@ -37,7 +33,7 @@ namespace SamsChannelEditor
 
     public DataTable DataTable { get; private set; }
 
-    public OtherFile(string filename, SCMFileContentType maptype)
+    protected OtherFile(string filename, SCMFileContentType maptype)
     {
       MapType = maptype;
       Changed = false;
@@ -60,10 +56,10 @@ namespace SamsChannelEditor
       Changed = false;
       Clear();
 
-      string fullPathFileName = Path.Combine(directory, this.FileName);
+      string fullPathFileName = Path.Combine(directory, FileName);
 
-      if (log.IsDebugEnabled)
-        log.Debug("Read MapFile " + fullPathFileName);
+      if (LOG.IsDebugEnabled)
+        LOG.Debug("Read MapFile " + fullPathFileName);
 
       if (!File.Exists(fullPathFileName))
         throw new FileLoadException(string.Format("File {0} not found", fullPathFileName), "Open file error");

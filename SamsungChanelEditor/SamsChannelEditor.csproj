@@ -82,7 +82,6 @@
     <Compile Include="FInputBox.designer.cs">
       <DependentUpon>FInputBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListViewExtensions.cs" />
     <Compile Include="MapChannelAnalog.cs" />
     <Compile Include="SatDataBaseFile.cs" />
     <Compile Include="OtherFile.cs" />
@@ -127,6 +126,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UCSingleEdit.resx">
       <DependentUpon>UCSingleEdit.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
