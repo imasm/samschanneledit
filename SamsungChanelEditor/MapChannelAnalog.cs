@@ -130,6 +130,12 @@ namespace SamsChannelEditor
         get { return false; }
 		set { ; }
     }
+
+	public virtual bool Locked
+	{
+		get { return false; }
+		set { ; }
+	}
     
     public virtual bool IsOk()
     {
