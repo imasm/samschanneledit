@@ -44,10 +44,15 @@ namespace SamsChannelEditor
 
     public virtual string Name
     {
-      get
-      {
-        return Encoding.Unicode.GetString(Data, 21, 10);
-      }
+        get
+        {
+            return Encoding.BigEndianUnicode.GetString(Data, 20, 10);
+        }
+        set
+        {
+            byte[] newName = Encoding.BigEndianUnicode.GetBytes(value);
+            newName.CopyTo(Data, 20);
+        }
     }
 
     public virtual string ChannelType
@@ -89,7 +94,37 @@ namespace SamsChannelEditor
       get { return 0; }
     }
 
-    public virtual  bool IsOk()
+    public virtual bool FavoriteList1
+    {
+        get { return false; }
+        set { ; }
+    }
+    
+    public virtual bool FavoriteList2
+    {
+        get { return false; }
+        set { ; }
+    }
+    
+    public virtual bool FavoriteList3
+    {
+        get { return false; }
+        set { ; }
+    }
+    
+    public virtual bool FavoriteList4
+    {
+        get { return false; }
+        set { ; }
+    }
+
+    public virtual bool Locked
+    {
+        get { return false; }
+        set { ; }
+    }
+    
+    public virtual bool IsOk()
     {
       return (BitConverter.ToInt16(Data, 0) > 0);
     }

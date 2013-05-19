@@ -32,12 +32,12 @@ namespace SamsChannelEditor
     Other = 0xFF, // wildcard for new models not supported
   }
 
-  internal class MapChannel: IChannel
+  internal class MapChannel : IChannel
   {
     bool _isDeleted;
 
-    public int FilePosition { get; set; }    
-    public bool Deleted { get { return _isDeleted;} set {_isDeleted = value ;} }
+    public int FilePosition { get; set; }
+    public bool Deleted { get { return _isDeleted; } set { _isDeleted = value; } }
     public bool Active { get { return !_isDeleted; } set { _isDeleted = !value; } }
 
     public byte[] Data { get; private set; }
@@ -66,13 +66,20 @@ namespace SamsChannelEditor
       }
     }
 
+
     public virtual string Name
     {
       get
       {
-        return StringUtils.RemoveNulls(Encoding.Unicode.GetString(Data, 65, 100));
+        return StringUtils.RemoveNulls(Encoding.BigEndianUnicode.GetString(Data, 64, 100));
+      }
+      set
+      {
+        byte[] newName = Encoding.BigEndianUnicode.GetBytes(value);
+        newName.CopyTo(Data, 64);
       }
     }
+
 
     public virtual string ChannelType
     {
@@ -114,7 +121,122 @@ namespace SamsChannelEditor
       get { return BitConverter.ToUInt16(Data, 32); }
     }
 
-    public virtual  bool IsOk()
+    public virtual bool FavoriteList1
+    {
+      get
+      {
+        if (Data.Length > 290)
+          return ((Data[290] & 0x01) > 0);
+        return false;
+      }
+      set
+      {
+        if (Data.Length <= 290)
+          return;
+
+        if (value)
+        {
+          Data[290] |= 0x01;
+        }
+        else
+        {
+          Data[290] &= 0xFE;
+        }
+      }
+    }
+
+    public virtual bool FavoriteList2
+    {
+      get
+      {
+        if (Data.Length > 290)
+          return ((Data[290] & 0x02) > 0);
+        return false;
+      }
+      set
+      {
+        if (Data.Length <= 290)
+          return;
+
+        if (value)
+        {
+          Data[290] |= 0x02;
+        }
+        else
+        {
+          Data[290] &= 0xFD;
+        }
+      }
+    }
+
+    public virtual bool FavoriteList3
+    {
+      get
+      {
+        if (Data.Length > 290)
+          return ((Data[290] & 0x04) > 0);
+        return false;
+      }
+      set
+      {
+        if (Data.Length <= 290)
+          return;
+
+        if (value)
+        {
+          Data[290] |= 0x04;
+        }
+        else
+        {
+          Data[290] &= 0xFB;
+        }
+      }
+    }
+
+    public virtual bool FavoriteList4
+    {
+      get
+      {
+        if (Data.Length > 290)
+          return ((Data[290] & 0x08) > 0);
+        return false;
+      }
+      set
+      {
+        if (Data.Length <= 290)
+          return;
+
+        if (value)
+        {
+          Data[290] |= 0x08;
+        }
+        else
+        {
+          Data[290] &= 0xF7;
+        }
+      }
+    }
+
+    public virtual bool Locked
+    {
+      get
+      {
+        return Data[31] == 0x01;
+      }
+      set
+      {
+        if (value)
+        {
+          Data[31] = 0x01;
+        }
+        else
+        {
+          Data[31] = 0x00;
+        }
+      }
+    }
+
+    public virtual bool IsOk()
     {
       return (BitConverter.ToInt16(Data, 0) > 0);
     }
@@ -138,14 +260,14 @@ namespace SamsChannelEditor
 
     protected MapChannelType GetMapChannelType(byte b)
     {
-        try
-        {
-            return (MapChannelType)b;
-        }
-        catch
-        {
-            return MapChannelType.Other;
-        }
+      try
+      {
+        return (MapChannelType)b;
+      }
+      catch
+      {
+        return MapChannelType.Other;
+      }
     }
-  }  
+  }
 }
