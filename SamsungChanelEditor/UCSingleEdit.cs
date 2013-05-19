@@ -251,25 +251,25 @@ namespace SamsChannelEditor
     private void CreateChannelListView(bool viewExtra)
     {
       listView1.Clear();
-      listView1.Columns.Add("#", 80);
-      listView1.Columns.Add("Name", 150);
-      listView1.Columns.Add("Type", 50);
-      listView1.Columns.Add("Enc.", 50);
+      listView1.Columns.Add(typeof(MapChannel).GetProperty("Number").Name, "#", 80);
+      listView1.Columns.Add(typeof(MapChannel).GetProperty("Name").Name, "Name", 150);
+      listView1.Columns.Add(typeof(MapChannel).GetProperty("ChannelType").Name, "Type", 50);
+	  listView1.Columns.Add(typeof(MapChannel).GetProperty("IsEncrypted").Name, "Enc.", 50);
 
       if (viewExtra)
       {
-        listView1.Columns.Add("Freq.", 50);
-        listView1.Columns.Add("ServiceId", 80);
-        listView1.Columns.Add("tsId", 60);
-        listView1.Columns.Add("onid", 60);
-        listView1.Columns.Add("Network", 80);
-        listView1.Columns.Add("Fav1", 50);
-        listView1.Columns.Add("Fav2", 50);
-        listView1.Columns.Add("Fav3", 50);
-        listView1.Columns.Add("Fav4", 50);
+		listView1.Columns.Add(typeof(MapChannel).GetProperty("Frequency").Name, "Freq.", 50);
+		listView1.Columns.Add(typeof(MapChannel).GetProperty("ServiceID").Name, "ServiceId", 80);
+		listView1.Columns.Add(typeof(MapChannel).GetProperty("Multiplex_TSID").Name, "tsId", 60);
+		listView1.Columns.Add(typeof(MapChannel).GetProperty("Multiplex_ONID").Name, "onid", 60);
+		listView1.Columns.Add(typeof(MapChannel).GetProperty("Network").Name, "Network", 80);
+		listView1.Columns.Add(typeof(MapChannel).GetProperty("FavoriteList1").Name, "Fav1", 50);
+		listView1.Columns.Add(typeof(MapChannel).GetProperty("FavoriteList2").Name, "Fav2", 50);
+		listView1.Columns.Add(typeof(MapChannel).GetProperty("FavoriteList3").Name, "Fav3", 50);
+		listView1.Columns.Add(typeof(MapChannel).GetProperty("FavoriteList4").Name, "Fav4", 50);
       }
 #if DEBUG
-      listView1.Columns.Add("Pos", 50);
+	  listView1.Columns.Add(typeof(MapChannel).GetProperty("FilePosition").Name, "Pos", 50);
 #endif
 
       listView1.Columns[listView1.Columns.Count - 1].Width = -2;
@@ -578,5 +578,137 @@ namespace SamsChannelEditor
       }
     }
     #endregion
+
+	#region Edit channel data
+	private void EditListViewItem(ListViewHitTestInfo item)
+	{
+		if (item == null || item.SubItem.Text == string.Empty)
+		{
+			return;
+		}
+
+		TextBox tbxEdit = null;
+		tbxEdit = new TextBox();
+		tbxEdit.Parent = listView1;
+		tbxEdit.Tag = item;	// Store clicked item
+		tbxEdit.Location = new Point(item.SubItem.Bounds.Location.X, item.SubItem.Bounds.Location.Y - 1);
+		tbxEdit.AutoSize = false;
+		tbxEdit.Height = item.Item.Bounds.Height + 1;
+		tbxEdit.Width = item.SubItem.Bounds.Width + 1;
+		tbxEdit.BorderStyle = BorderStyle.FixedSingle;
+		tbxEdit.KeyDown += new KeyEventHandler(tbxEdit_KeyDown);
+		tbxEdit.LostFocus += new EventHandler(tbxEdit_LostFocus);
+		tbxEdit.Text = item.SubItem.Text;
+		tbxEdit.CreateControl();
+		tbxEdit.Focus();
+	}
+
+	void tbxEdit_LostFocus(object sender, EventArgs e)
+	{
+		tbxEdit_KeyDown(sender as TextBox, new KeyEventArgs(Keys.Escape));
+	}
+
+	void tbxEdit_KeyDown(object sender, KeyEventArgs e)
+	{
+		TextBox tbxEdit = sender as TextBox;
+
+		if (tbxEdit == null)
+		{
+			return;
+		}
+
+		if (e.KeyCode == Keys.Enter)
+		{
+			ListViewHitTestInfo infoitem = (tbxEdit.Tag as ListViewHitTestInfo);
+
+			ListView lview = tbxEdit.Parent as ListView;
+			
+
+			IChannel ch = infoitem.Item.Tag as IChannel;
+
+			int sidx = infoitem.Item.SubItems.IndexOf(infoitem.SubItem);	// get subitem index
+			string lvcolumnKey = listView1.Columns[sidx].Name;
+			
+			try
+			{
+				lview.BeginUpdate();
+				object newObj = null;
+				switch (ch.GetType().GetProperty(lvcolumnKey).PropertyType.Name)
+				{
+					case "Boolean":
+						if (tbxEdit.Text == "1")
+						{
+							newObj = true;
+							tbxEdit.Text = "1";
+						} 
+						else
+						{
+							newObj = false;
+							tbxEdit.Text = "";
+						}
+					break;
+
+					default:
+						newObj = tbxEdit.Text;
+						break;
+				}
+				infoitem.SubItem.Text = tbxEdit.Text;		// update edited subitem text
+				lview.EndUpdate();
+
+				ch.GetType().GetProperty(lvcolumnKey).SetValue(ch, newObj, null);
+			}
+			catch (System.ArgumentException ex)
+			{
+				MessageBox.Show(SamsChannelEditor.Properties.Resources.READONLYFIELD_EXCEPTION, SamsChannelEditor.Properties.Resources.ERROR_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+
+#if DEBUG
+			catch (System.Exception ex)
+			{
+				MessageBox.Show(ex.ToString());
+			}
+#endif
+			finally
+			{
+				tbxEdit.LostFocus -= tbxEdit_LostFocus;
+				tbxEdit.Dispose();
+			}
+		}
+		else if (e.KeyCode == Keys.Escape)
+		{
+			tbxEdit.Dispose();
+		}
+	}
+
+	private void listView1_MouseDoubleClick(object sender, MouseEventArgs e)
+	{
+		ListViewHitTestInfo info = listView1.HitTest(e.Location);
+
+		Point p = listView1.PointToClient(Cursor.Position);
+
+		if (p.X <= listView1.Columns[0].Width)
+		{
+			return;
+		}
+
+		EditListViewItem(info);
+	}
+	#endregion
+
+	/// <summary>
+	/// Change checked state only if item was clicked
+	/// </summary>
+	/// <param name="sender"></param>
+	/// <param name="e"></param>
+	private void listView1_ItemCheck(object sender, ItemCheckEventArgs e)
+	{
+		Point p = listView1.PointToClient(Cursor.Position);
+
+		if (p.X > listView1.Columns[0].Width)
+		{
+			e.NewValue = e.CurrentValue;
+		}
+	}
+
   }
 }

@@ -72,15 +72,21 @@ namespace SamsChannelEditor
       }
     }
 
-    public virtual string Name
-    {
-      get
-      {
-          return StringUtils.RemoveNulls(Encoding.BigEndianUnicode.GetString(data, 64, 100));
-      }
-    }
+	public virtual string Name
+	{
+		get
+		{
+			return StringUtils.RemoveNulls(Encoding.BigEndianUnicode.GetString(data, 64, 100));
+		}
+		set 
+		{
+			byte[] newName = Encoding.BigEndianUnicode.GetBytes(value);
+			newName.CopyTo(data, 64);
+		}
+	}
 
-    public virtual string ChannelType
+
+	public virtual string ChannelType
     {
       get
       {
@@ -127,21 +133,65 @@ namespace SamsChannelEditor
     public virtual bool FavoriteList1
     {
         get { return ((data[290] & 0x01) > 0); }
+		set
+		{
+			if (value)
+			{
+				data[290] |= 0x01;
+			} 
+			else
+			{
+				data[290] &= 0xFE;
+			}
+		}
     }
     
     public virtual bool FavoriteList2
     {
         get { return ((data[290] & 0x02) > 0); }
+		set
+		{
+			if (value)
+			{
+				data[290] |= 0x02;
+			}
+			else
+			{
+				data[290] &= 0xFD;
+			}
+		}
     }
     
     public virtual bool FavoriteList3
     {
         get { return ((data[290] & 0x04) > 0); }
+		set
+		{
+			if (value)
+			{
+				data[290] |= 0x04;
+			}
+			else
+			{
+				data[290] &= 0xFB;
+			}
+		}
     }
     
     public virtual bool FavoriteList4
     {
         get { return ((data[290] & 0x08) > 0); }
+		set
+		{
+			if (value)
+			{
+				data[290] |= 0x08;
+			}
+			else
+			{
+				data[290] &= 0xF7;
+			}
+		}
     }
     
     public virtual  bool IsOk()
