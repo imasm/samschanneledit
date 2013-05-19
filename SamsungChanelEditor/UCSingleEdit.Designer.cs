@@ -163,8 +163,7 @@ namespace SamsChannelEditor
 		this.listView1.View = System.Windows.Forms.View.Details;
 		this.listView1.AfterDragAndDrop += new SamsChannelEditor.ListViewDragAndDrop.AfterDragAndDropEventHandler(this.listView1_AfterDragAndDrop);
 		this.listView1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.listView1_ItemCheck);
-		this.listView1.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listView1_ItemChecked);
-		this.listView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.listView1_DragDrop);
+		this.listView1.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listView1_ItemChecked);		
 		this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);
 		// 
 		// UCSingleEdit
