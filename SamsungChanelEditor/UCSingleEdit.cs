@@ -160,6 +160,7 @@ namespace SamsChannelEditor
             lvi.SubItems.Add(ch.IsEncrypted ? "S" : ""); // Enc
             if (showExtra)
             {
+			  lvi.SubItems.Add(ch.Locked ? "1" : string.Empty);
               lvi.SubItems.Add(ch.Frequency.ToString()); // Freq
               lvi.SubItems.Add(ch.ServiceID.ToString(numberFormat)); // sid
               lvi.SubItems.Add(ch.Multiplex_TSID.ToString(numberFormat)); // tsid
@@ -258,6 +259,7 @@ namespace SamsChannelEditor
 
       if (viewExtra)
       {
+		listView1.Columns.Add(typeof(MapChannel).GetProperty("Locked").Name, "Locked", 20);
 		listView1.Columns.Add(typeof(MapChannel).GetProperty("Frequency").Name, "Freq.", 50);
 		listView1.Columns.Add(typeof(MapChannel).GetProperty("ServiceID").Name, "ServiceId", 80);
 		listView1.Columns.Add(typeof(MapChannel).GetProperty("Multiplex_TSID").Name, "tsId", 60);
@@ -582,7 +584,7 @@ namespace SamsChannelEditor
 	#region Edit channel data
 	private void EditListViewItem(ListViewHitTestInfo item)
 	{
-		if (item == null || item.SubItem.Text == string.Empty)
+		if (item == null || item.SubItem == null)
 		{
 			return;
 		}
