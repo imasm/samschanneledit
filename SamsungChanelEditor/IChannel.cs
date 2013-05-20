@@ -17,9 +17,6 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SamsChannelEditor
 {
@@ -30,7 +27,7 @@ namespace SamsChannelEditor
     byte[] Data { get; }
 
     short Number { get; set;  }
-    string Name { get; }
+	string Name { get; set; }
     string ChannelType { get; }
     bool IsEncrypted { get; }
     long Frequency { get; }
@@ -39,8 +36,15 @@ namespace SamsChannelEditor
     ushort Multiplex_ONID { get; }
     ushort Network { get; }
     bool Deleted { get; set; }
-    bool Active { get; set; }    
+    bool Active { get; set; }
 
+	bool FavoriteList1 { get; set; }
+	bool FavoriteList2 { get; set; }
+	bool FavoriteList3 { get; set; }
+	bool FavoriteList4 { get; set; }
+
+	bool Locked { get; set; }
+    
     byte CalcChecksum(bool save);
   }
 }

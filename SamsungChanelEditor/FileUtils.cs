@@ -17,8 +17,6 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace SamsChannelEditor
@@ -27,13 +25,13 @@ namespace SamsChannelEditor
   {
     public static long GetFileSize(string filename)
     {
-      FileInfo fi = new FileInfo(filename);
-        return fi.Length;            
+      var fi = new FileInfo(filename);
+      return fi.Length;
     }
 
     public static string GetTempDirectory()
     {
-      string path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+      var path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
       while (Directory.Exists(path))
         path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 

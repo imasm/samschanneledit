@@ -18,7 +18,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace SamsChannelEditor
@@ -34,7 +33,7 @@ namespace SamsChannelEditor
     {
       get
       {
-        return Encoding.Unicode.GetString(base.Data, 0x31, 100);
+        return Encoding.Unicode.GetString(Data, 0x31, 100);
       }
     }
 
@@ -42,18 +41,18 @@ namespace SamsChannelEditor
     {
       get
       {
-        return ((MapChannelType)base.Data[14]).ToString();
+        return ((MapChannelType)Data[14]).ToString();
       }
     }
 
     public override ushort Multiplex_ONID
     {
-        get { return BitConverter.ToUInt16(base.Data, 32); }
+        get { return BitConverter.ToUInt16(Data, 32); }
     }
 
     public override ushort Multiplex_TSID
     {
-        get { return BitConverter.ToUInt16(base.Data, 36); }
+        get { return BitConverter.ToUInt16(Data, 36); }
     }
 
     public override ushort Network
@@ -63,13 +62,13 @@ namespace SamsChannelEditor
 
     public override ushort ServiceID
     {
-        get { return BitConverter.ToUInt16(base.Data, 16); }
+        get { return BitConverter.ToUInt16(Data, 16); }
     }
 
     //TODO: Discover
     public override bool IsEncrypted
     {
-      get { return (base.Data[180] == 1); }
+      get { return (Data[180] == 1); }
     }
   }
 }

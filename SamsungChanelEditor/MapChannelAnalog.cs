@@ -18,7 +18,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace SamsChannelEditor
@@ -26,48 +25,42 @@ namespace SamsChannelEditor
   internal class MapChannelAnalog: IChannel
   {
     bool _isDeleted;
-    short _number;
 
     public int FilePosition { get; set; }    
     public bool Deleted { get { return _isDeleted;} set {_isDeleted = value ;} }
     public bool Active { get { return !_isDeleted; } set { _isDeleted = !value; } }
-  
-    private byte[] data;
 
-    public byte[] Data
-    {
-      get { return data; }
-    }
+    public byte[] Data { get; private set; }
 
     public MapChannelAnalog(int pos, byte[] buffer)
     {
-      this._isDeleted = false;
-      this._number = (short) pos;      
-      this.FilePosition = pos;
-      this.data = (byte[])buffer.Clone();
+      _isDeleted = false;
+      Number = (short) pos;      
+      FilePosition = pos;
+      Data = (byte[])buffer.Clone();
     }
 
-    public short Number
-    {
-      get
-      { return this._number; }
-      set
-      { this._number = value; }
-    }
+    public short Number { get; set; }
 
+    [Editable]
     public virtual string Name
     {
-      get
-      {
-        return Encoding.Unicode.GetString(data, 21, 10);
-      }
+        get
+        {
+            return Encoding.BigEndianUnicode.GetString(Data, 20, 10);
+        }
+        set
+        {
+            byte[] newName = Encoding.BigEndianUnicode.GetBytes(value);
+            newName.CopyTo(Data, 20);
+        }
     }
 
     public virtual string ChannelType
     {
       get
       {
-        return MapChannelType.TV.ToString(); ;
+        return MapChannelType.TV.ToString();
       }
     }
 
@@ -102,9 +95,39 @@ namespace SamsChannelEditor
       get { return 0; }
     }
 
-    public virtual  bool IsOk()
+    public virtual bool FavoriteList1
     {
-      return (BitConverter.ToInt16(data, 0) > 0);
+        get { return false; }
+        set { ; }
+    }
+    
+    public virtual bool FavoriteList2
+    {
+        get { return false; }
+        set { ; }
+    }
+    
+    public virtual bool FavoriteList3
+    {
+        get { return false; }
+        set { ; }
+    }
+    
+    public virtual bool FavoriteList4
+    {
+        get { return false; }
+        set { ; }
+    }
+
+    public virtual bool Locked
+    {
+        get { return false; }
+        set { ; }
+    }
+    
+    public virtual bool IsOk()
+    {
+      return (BitConverter.ToInt16(Data, 0) > 0);
     }
 
     public byte CalcChecksum()
@@ -115,11 +138,11 @@ namespace SamsChannelEditor
     public virtual byte CalcChecksum(bool saveindata)
     {
       byte ck = 0;
-      for (int i = 0; i < data.Length - 1; i++)
-        ck += data[i];
+      for (var i = 0; i < Data.Length - 1; i++)
+        ck += Data[i];
 
       if (saveindata)
-        data[data.Length - 1] = ck;
+        Data[Data.Length - 1] = ck;
 
       return ck;
     }

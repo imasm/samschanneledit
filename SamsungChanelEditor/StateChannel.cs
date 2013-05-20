@@ -17,15 +17,12 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace SamsChannelEditor
 {
-  internal class StateChannel: MapChannel
+  internal class StateChannel : MapChannel
   {
-
     public StateChannel(int pos, byte[] buffer)
       : base(pos, buffer)
     {
@@ -33,23 +30,17 @@ namespace SamsChannelEditor
 
     public override string Name
     {
-      get
-      {
-        return Encoding.Unicode.GetString(base.Data, 0x25, 100);
-      }
+      get { return Encoding.Unicode.GetString(Data, 0x25, 100); }
     }
 
     public override string ChannelType
     {
-      get
-      {
-        return ((MapChannelType)base.Data[0x0E]).ToString();
-      }
+      get { return ((MapChannelType) Data[0x0E]).ToString(); }
     }
 
     public override bool IsEncrypted
     {
       get { return false; } // return (data[24] == 1); }
-    }     
-  }  
+    }
+  }
 }

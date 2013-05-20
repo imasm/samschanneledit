@@ -18,7 +18,6 @@
 #endregion
 
 using System;
-using System.Text;
 
 namespace SamsChannelEditor
 {
@@ -26,19 +25,15 @@ namespace SamsChannelEditor
   {
     public static string Reverse(string s)
     {
-      char[] arr = s.ToCharArray();
+      var arr = s.ToCharArray();
       Array.Reverse(arr);
       return new string(arr);
     }
 
     public static string RemoveNulls(string s)
     {
-      int pos = s.IndexOf('\0');
-
-      if (pos > 0)
-        return s.Substring(0, pos);
-      else
-        return s;
+      var pos = s.IndexOf('\0');
+      return pos > 0 ? s.Substring(0, pos) : s;
     }
 
     public static string Copy(string s, int start, int count)
@@ -47,23 +42,15 @@ namespace SamsChannelEditor
         start = 0;
 
       if (start >= s.Length)
-      {
         return "";
-      }
-      if ((start + count) > s.Length)
-      {
-        return s.Substring(start);
-      }
-      return s.Substring(start, count);
+
+      return (start + count) > s.Length ? s.Substring(start) : s.Substring(start, count);
     }
 
     internal static int TryToInt32(string s, int defaultnum)
     {
-      int nout = 0;
-      if (Int32.TryParse(s, out nout))        
-        return nout;
-      else
-        return defaultnum;
+      int nout;
+      return Int32.TryParse(s, out nout) ? nout : defaultnum;
     }
   }
 }
