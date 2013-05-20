@@ -22,7 +22,7 @@ using System.Text;
 
 namespace SamsChannelEditor
 {
-  enum MapChannelType : byte
+  internal enum MapChannelType : byte
   {
     None = 0x00,
     TV = 0x01,
@@ -34,11 +34,21 @@ namespace SamsChannelEditor
 
   internal class MapChannel : IChannel
   {
-    bool _isDeleted;
+    private bool _isDeleted;
 
     public int FilePosition { get; set; }
-    public bool Deleted { get { return _isDeleted; } set { _isDeleted = value; } }
-    public bool Active { get { return !_isDeleted; } set { _isDeleted = !value; } }
+
+    public bool Deleted
+    {
+      get { return _isDeleted; }
+      set { _isDeleted = value; }
+    }
+
+    public bool Active
+    {
+      get { return !_isDeleted; }
+      set { _isDeleted = !value; }
+    }
 
     public byte[] Data { get; private set; }
 
@@ -46,15 +56,12 @@ namespace SamsChannelEditor
     {
       _isDeleted = false;
       FilePosition = pos;
-      Data = (byte[])buffer.Clone();
+      Data = (byte[]) buffer.Clone();
     }
 
     public short Number
     {
-      get
-      {
-        return BitConverter.ToInt16(Data, 0);
-      }
+      get { return BitConverter.ToInt16(Data, 0); }
 
       set
       {
@@ -66,13 +73,10 @@ namespace SamsChannelEditor
       }
     }
 
-
+    [Editable]
     public virtual string Name
     {
-      get
-      {
-        return StringUtils.RemoveNulls(Encoding.BigEndianUnicode.GetString(Data, 64, 100));
-      }
+      get { return StringUtils.RemoveNulls(Encoding.BigEndianUnicode.GetString(Data, 64, 100)); }
       set
       {
         byte[] newName = Encoding.BigEndianUnicode.GetBytes(value);
@@ -121,6 +125,7 @@ namespace SamsChannelEditor
       get { return BitConverter.ToUInt16(Data, 32); }
     }
 
+    [Editable]
     public virtual bool FavoriteList1
     {
       get
@@ -145,6 +150,7 @@ namespace SamsChannelEditor
       }
     }
 
+    [Editable]
     public virtual bool FavoriteList2
     {
       get
@@ -169,6 +175,7 @@ namespace SamsChannelEditor
       }
     }
 
+    [Editable]
     public virtual bool FavoriteList3
     {
       get
@@ -193,6 +200,7 @@ namespace SamsChannelEditor
       }
     }
 
+    [Editable]
     public virtual bool FavoriteList4
     {
       get
@@ -217,12 +225,10 @@ namespace SamsChannelEditor
       }
     }
 
+    [Editable]
     public virtual bool Locked
     {
-      get
-      {
-        return Data[31] == 0x01;
-      }
+      get { return Data[31] == 0x01; }
       set
       {
         if (value)
@@ -262,7 +268,7 @@ namespace SamsChannelEditor
     {
       try
       {
-        return (MapChannelType)b;
+        return (MapChannelType) b;
       }
       catch
       {

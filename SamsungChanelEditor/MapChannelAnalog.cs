@@ -42,6 +42,7 @@ namespace SamsChannelEditor
 
     public short Number { get; set; }
 
+    [Editable]
     public virtual string Name
     {
         get

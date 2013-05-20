@@ -23,6 +23,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace SamsChannelEditor
@@ -170,7 +171,7 @@ namespace SamsChannelEditor
           if (!ch.IsOk())
             continue;
 
-          ListViewItem lvi = new ListViewItem(ch.Number.ToString()); // #
+          ListViewItem lvi = new ListViewItem(ch.Number.ToString(CultureInfo.InvariantCulture)); // #
           lvi.Name = ch.Name;
           lvi.SubItems.Add(ch.Name); // Name
           lvi.SubItems.Add(ch.ChannelType); // Type
@@ -178,7 +179,7 @@ namespace SamsChannelEditor
           if (showExtra)
           {
             lvi.SubItems.Add(ch.Locked ? "1" : string.Empty);
-            lvi.SubItems.Add(ch.Frequency.ToString()); // Freq
+            lvi.SubItems.Add(ch.Frequency.ToString(CultureInfo.InvariantCulture)); // Freq
             lvi.SubItems.Add(ch.ServiceID.ToString(NUMBER_FORMAT)); // sid
             lvi.SubItems.Add(ch.Multiplex_TSID.ToString(NUMBER_FORMAT)); // tsid
             lvi.SubItems.Add(ch.Multiplex_ONID.ToString(NUMBER_FORMAT)); // onid
@@ -565,8 +566,7 @@ namespace SamsChannelEditor
         return;
       }
 
-      TextBox tbxEdit = null;
-      tbxEdit = new TextBox();
+      TextBox tbxEdit = new TextBox();
       tbxEdit.Parent = listView1;
       tbxEdit.Tag = item;	// Store clicked item
       tbxEdit.Location = new Point(item.SubItem.Bounds.Location.X, item.SubItem.Bounds.Location.Y - 1);
@@ -598,12 +598,10 @@ namespace SamsChannelEditor
       if (e.KeyCode == Keys.Enter)
       {
         ListViewHitTestInfo infoitem = (tbxEdit.Tag as ListViewHitTestInfo);
-
+        
         ListView lview = tbxEdit.Parent as ListView;
-
-
         IChannel ch = infoitem.Item.Tag as IChannel;
-
+        
         int sidx = infoitem.Item.SubItems.IndexOf(infoitem.SubItem);	// get subitem index
         string lvcolumnKey = listView1.Columns[sidx].Name;
 
@@ -669,8 +667,30 @@ namespace SamsChannelEditor
         return;
       }
 
-      EditListViewItem(info);
+      // Only edit name and Fav. lists
+      int sidx = info.Item.SubItems.IndexOf(info.SubItem);	// get subitem index
+      string lvcolumnKey = listView1.Columns[sidx].Name;
+      IChannel ch = info.Item.Tag as IChannel;
+      if (ch != null)
+      {
+        if (IsEditable(ch.GetType().GetProperty(lvcolumnKey)))
+          EditListViewItem(info);
+      }
     }
+
+    // Check for Editable attribute in property
+    private static bool IsEditable(PropertyInfo property)
+    {
+      foreach (object attribute in property.GetCustomAttributes(true))
+      {
+        if (attribute is EditableAttribute)
+        {
+          return true;
+        }
+      }
+      return false;
+    }
+
     #endregion
 
     /// <summary>
