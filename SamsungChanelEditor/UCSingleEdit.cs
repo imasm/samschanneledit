@@ -598,9 +598,23 @@ namespace SamsChannelEditor
       if (e.KeyCode == Keys.Enter)
       {
         ListViewHitTestInfo infoitem = (tbxEdit.Tag as ListViewHitTestInfo);
+        if ((infoitem == null) || (infoitem.Item == null))
+        {
+          return;
+        }
         
         ListView lview = tbxEdit.Parent as ListView;
+        if (lview == null)
+        {
+          return;
+        }
+
         IChannel ch = infoitem.Item.Tag as IChannel;
+        if (ch == null)
+        {
+          return;
+        }
+
         
         int sidx = infoitem.Item.SubItems.IndexOf(infoitem.SubItem);	// get subitem index
         string lvcolumnKey = listView1.Columns[sidx].Name;
