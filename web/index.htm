@@ -59,6 +59,11 @@ framework 2.0 (or newer) to be installed on your computer.
 <br />
 You can download here : <a href="http://msdn.microsoft.com/en-us/netframework">http://msdn.microsoft.com/en-us/netframework</a></p>
 
+<h2>Source Code</h2>
+<p>
+Source code is aviable from <a href="https://github.com/imasm/samschanneledit">Github</a> and <a href="http://sourceforge.net/projects/samschanneledit">SourceForge</a>
+</p>
+
 <h2>Bad file size error</h2>
 <p>
 Since version 0.9 you can define new sizes in SamsChannelEditor.exe.config. 
@@ -87,25 +92,47 @@ Example:
 </pre>
 </p>
 
+<h2>Libraries & Resources used</h2>
+<ul>
+<li><a href="http://www.icsharpcode.net/opensource/sharpziplib">SharpZipLib</a></li>
+<li><a href="http://logging.apache.org/log4net">log4net</a></li>
+<li><a href="http://www.axialis.com/free/icons">Free Icons by Axialis Software</a></li>
+</ul>
+
+<h2>Developers and Collaborators</h2>
+<ul>
+<li><a href="https://github.com/imasm">Ivan Masmitja</a></li>
+<li><a href="https://github.com/andrew097">Andrey</a></li>
+<li><a href="https://github.com/Hinni">Hinni</a></li>
+</ul>
 
 <h2>License</h2>
 <p>SamsChannelEditor is distributed under the GNU General Public
 License (GPL). For more information: <a href="http://www.gnu.org/licenses/gpl-3.0.html">GNU GPL.3.0</a></p>
 <h2>Changelog</h2>
+<h3>Version 0.11</h3>
+<ul>
+<li>Fixed channel names output. Names in Russian output correctly. Other languages must do so</li>
+<li>Channel data edit feature realized. You can edit channel name and favourites.</li>
+</ul>
+
 <h3>Version 0.10</h3>
 <ul>
 <li>Applied a patch created by Andreas Winter to save sort order to file and restore after.</li>
 <li>Applied a patch created by Andreas Mayer to remove encrypted channels.</li>
 </ul>
+
 <h3>Version 0.9</h3>
 <ul>
 <li>Moved record sizes to SamsChannelEditor.exe.config. Now are easy to add new record sizes for new models.</li>
 </ul>
+
 <h3>Version 0.8</h3>
 <ul>
 <li>BUG [3468470] : Open map-SateD 144bytes length (LE37C670)</li>
 <li>MoveTo problems detected when out of range number is introduced.</li>
 </ul>
+
 <h3>Version 0.7</h3>
 <ul>
 <li>Works on D Series</li>
@@ -114,6 +141,7 @@ License (GPL). For more information: <a href="http://www.gnu.org/licenses/gpl-3.
 <li>Context menu: MoveTo </li>
 <li>Context menu: Renumber All</li>
 </ul>
+
 <h3>Version 0.6</h3>
 <ul>
 <li>Added support for map-AstraHDPlusD (Astra Satellite Channels)</li><li>Added support for configuration files as read-only</li><li>Added support for SatDataBaseFile.dat (Satellite List)</li><li>Added support for CloneInfo (TV info)</li><li>Modified map-SateD</li><li>Show more channel settings</li>
@@ -125,6 +153,7 @@ License (GPL). For more information: <a href="http://www.gnu.org/licenses/gpl-3.
 <li>Added support for map-SateD (Digital Satellite Channels)</li>
 <li>Added support for map-CableD (Satellite Channels?)</li>
 </ul>
+
 <h3>Version 0.4</h3>
 <ul>
 <li>Added D Series Compatibility</li>
@@ -135,22 +164,26 @@ License (GPL). For more information: <a href="http://www.gnu.org/licenses/gpl-3.
 <li>Set channels number on fly</li>
 <li>Solved multiselect problem with checkboxes</li>
 </ul>
+
 <h3>Version 0.3</h3>
 <ul>
 <li>User can delete channels.</li>
 </ul>
+
 <h3>Version 0.2</h3>
 <ul>
 <li>Open and Save .scm files directly</li>
 <li>Uses <a href="http://www.sharpdevelop.net/OpenSource/SharpZipLib">#ziplib</a>
 for read and update scm files</li>
 </ul>
+
 <h3>Version 0.1</h3>
 <ul>
 <li>Tested in C650 series</li>
 <li>Open and Save map_AirD files</li>
 <li>Drag&amp;Drop Channels</li>
 </ul>
+
 <div id="footer">
 <div id="footer_content">
 <ul>
