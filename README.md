@@ -21,10 +21,15 @@ SamsChannelEditor is a desktop application for editing a channel list from your 
 
 Installation
 ------------
-There's no setup file, just download de binaries and execute the samschanneleditor.exe file. All files are avaiable here.
+There's no setup package, just download the zip file from [SamsChannelEditor](http://sourceforge.net/projects/samschanneledit/files),
+extract all in a folder and execute ''samschanneleditor.exe''. 
 
 This application is written in C# so you need the .Net framework 2.0 (or newer) to be installed on your computer.
 You can download here : [.NET Framework](http://msdn.microsoft.com/en-us/netframework)
+
+Source Code
+------------
+Source code is aviable from [GitHub](https://github.com/imasm/samschanneledit) and [SourceForge](http://sourceforge.net/projects/samschanneledit)
 
 Bad file size error
 -------------------
@@ -53,9 +58,15 @@ To calculate your record size:
 
 Libraries & Resources used
 --------------------------
-[\#ziplib](http://www.icsharpcode.net/opensource/sharpziplib)  
-[log4net](http://logging.apache.org/log4net)  
-[Free Icons by Axialis Software](http://www.axialis.com/free/icons)  
+* [\#ziplib](http://www.icsharpcode.net/opensource/sharpziplib)  
+* [log4net](http://logging.apache.org/log4net)  
+* [Free Icons by Axialis Software](http://www.axialis.com/free/icons)  
+
+Developers and Collaborators
+-----------------------------
+* Ivan Masmitja(https://github.com/imasm)
+* Andrey(https://github.com/andrew097) 
+* Hinni(https://github.com/Hinni)
 
 License
 -------
