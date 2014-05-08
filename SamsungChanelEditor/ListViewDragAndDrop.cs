@@ -95,7 +95,11 @@ namespace SamsChannelEditor
       base.OnItemDrag(e);
 
       if (DragAndDropEnabled)
-        DoDragDrop(SelectedItems, DragDropEffects.Move);
+      {
+          IsUpdating = true;
+          DoDragDrop(SelectedItems, DragDropEffects.Move);
+          IsUpdating = false;
+      }
     }
 
     protected override void OnDragEnter(DragEventArgs drgevent)
@@ -158,7 +162,7 @@ namespace SamsChannelEditor
         int oldidx = dragItem.Index;
         int newidx = itemIndex;
 
-        Items.Insert(itemIndex, insertItem);
+        insertItem = Items.Insert(itemIndex, insertItem);
         Items.Remove(dragItem);
 
         if ((min == -1) || (Math.Min(oldidx, newidx) < min))
