@@ -80,6 +80,7 @@ namespace SamsChannelEditor
       set
       {
         byte[] newName = Encoding.BigEndianUnicode.GetBytes(value);
+        Array.Clear(Data,64,100);
         newName.CopyTo(Data, 64);
       }
     }
