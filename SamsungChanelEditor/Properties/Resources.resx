@@ -123,6 +123,6 @@
   </data>
   <data name="READONLYFIELD_EXCEPTION" xml:space="preserve">
     <value>This is readonly field. You can not edit it.</value>
-    <comment>You are tryinh to edit readonly field.</comment>
+    <comment>You are trying to edit readonly field.</comment>
   </data>
 </root>
