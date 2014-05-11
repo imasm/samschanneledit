@@ -87,6 +87,11 @@ License
 
 Last changelog
 --------------
+### Version 0.12
+
+* Fix Drag&Drop. Channel still enabled.
+* Fix rename. Short names will appear correctly.
+
 ### Version 0.11 ###
 
 * Fixed channel names output. Names in Russian output correctly. Other languages must do so
