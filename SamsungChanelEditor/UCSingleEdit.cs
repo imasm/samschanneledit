@@ -714,6 +714,9 @@ namespace SamsChannelEditor
     /// <param name="e"></param>
     private void listView1_ItemCheck(object sender, ItemCheckEventArgs e)
     {
+      if(listView1.IsUpdating)
+        return;
+        
       Point p = listView1.PointToClient(Cursor.Position);
 
       if (p.X > listView1.Columns[0].Width)
