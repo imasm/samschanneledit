@@ -65,9 +65,7 @@
     <Compile Include="FMain.Designer.cs">
       <DependentUpon>FMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="HexViewerControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="HexViewerControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FMain.resx">
