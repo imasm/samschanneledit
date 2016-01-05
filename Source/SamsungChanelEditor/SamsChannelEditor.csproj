@@ -78,8 +78,9 @@
     <Compile Include="Samsung\Definitions\ChannelFormat.cs" />
     <Compile Include="Samsung\CloneInfoFile.cs" />
     <Compile Include="Common\EditableAttribute.cs" />
+    <Compile Include="Samsung\Definitions\FileFormat.cs" />
     <Compile Include="Utils\DataMapping.cs" />
-    <Compile Include="Samsung\FileFormatSerieC.cs" />
+    <Compile Include="Samsung\Definitions\FileFormatSerieC.cs" />
     <Compile Include="UI\FInputBox.cs">
       <SubType>Form</SubType>
     </Compile>
