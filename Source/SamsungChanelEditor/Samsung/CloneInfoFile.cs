@@ -21,38 +21,40 @@ using System;
 using System.Data;
 using System.IO;
 using System.Text;
+using SamsChannelEditor.Utils;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.Samsung
 {
-  internal class SatDataBaseFile: OtherFile
+  internal class CloneInfoFile: OtherFile
   {
-    readonly byte[] _regtmp;
+    readonly byte[] _regtmp = new  byte[68];
 
-    public SatDataBaseFile(string filename)
-      :base(filename, SCMFileContentType.satDataBase)
+    public CloneInfoFile(string filename, SCMFileContentType maptype)
+      :base(filename, maptype)
     {
-      _regtmp = new  byte[145];
     }
 
     public override DataTable CreateDataTable()
     {
       var dt = new DataTable();
-      dt.Columns.Add("#", typeof(int));
-      dt.Columns.Add("Satellite", typeof(String));
+      dt.Columns.Add("Country ID", typeof(String));
+      dt.Columns.Add("TV Model", typeof(String));
       return dt;
     }
 
     public override bool ReadFile(string fullPathFileName)
     {
-      var idx = 0;
       using (var fs = File.Open(fullPathFileName, FileMode.Open))
       {
-        while (fs.Read(_regtmp, 0, _regtmp.Length) == _regtmp.Length)
+        int readed = fs.Read(_regtmp, 0, _regtmp.Length);
+        if (readed > 0)
         {
-          idx++;
-          var dr = DataTable.NewRow();
-          dr[0] = idx;
-          dr[1] = Encoding.Unicode.GetString(_regtmp, 0x0D, 50);
+          var pais = StringUtils.Reverse(Encoding.ASCII.GetString(_regtmp, 0x00, 3));
+          var model = Encoding.ASCII.GetString(_regtmp, 0x04, 15);
+
+          DataRow dr = DataTable.NewRow();
+          dr[0] = pais;
+          dr[1] = model;
           DataTable.Rows.Add(dr);
         }
       }

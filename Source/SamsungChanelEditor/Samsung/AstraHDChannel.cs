@@ -17,30 +17,58 @@
 
 #endregion
 
+using System;
 using System.Text;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.Samsung
 {
-  internal class StateChannel : MapChannel
+  internal class AstraHDChannel : MapChannel
   {
-    public StateChannel(int pos, byte[] buffer)
+    public AstraHDChannel(int pos, byte[] buffer)
       : base(pos, buffer)
     {
     }
 
     public override string Name
     {
-      get { return Encoding.Unicode.GetString(Data, 0x25, 100); }
+      get
+      {
+        return Encoding.Unicode.GetString(Data, 0x31, 100);
+      }
     }
 
     public override string ChannelType
     {
-      get { return ((MapChannelType) Data[0x0E]).ToString(); }
+      get
+      {
+        return ((MapChannelType)Data[14]).ToString();
+      }
     }
 
+    public override ushort Multiplex_ONID
+    {
+        get { return BitConverter.ToUInt16(Data, 32); }
+    }
+
+    public override ushort Multiplex_TSID
+    {
+        get { return BitConverter.ToUInt16(Data, 36); }
+    }
+
+    public override ushort Network
+    {
+      get { return 0; }
+    }
+
+    public override ushort ServiceID
+    {
+        get { return BitConverter.ToUInt16(Data, 16); }
+    }
+
+    //TODO: Discover
     public override bool IsEncrypted
     {
-      get { return false; } // return (data[24] == 1); }
+      get { return (Data[180] == 1); }
     }
   }
 }

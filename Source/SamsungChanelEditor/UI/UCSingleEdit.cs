@@ -25,6 +25,8 @@ using System.Drawing;
 using System.Globalization;
 using System.Reflection;
 using System.Windows.Forms;
+using SamsChannelEditor.Common;
+using SamsChannelEditor.Samsung;
 
 namespace SamsChannelEditor.UI
 {

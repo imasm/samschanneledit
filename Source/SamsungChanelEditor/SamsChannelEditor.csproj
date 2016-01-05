@@ -72,23 +72,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChannelList.cs" />
-    <Compile Include="AstraHDChannel.cs" />
-    <Compile Include="CloneInfoFile.cs" />
-    <Compile Include="EditableAttribute.cs" />
+    <Compile Include="Common\ChannelList.cs" />
+    <Compile Include="Samsung\AstraHDChannel.cs" />
+    <Compile Include="Samsung\CloneInfoFile.cs" />
+    <Compile Include="Common\EditableAttribute.cs" />
     <Compile Include="UI\FInputBox.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\FInputBox.designer.cs">
       <DependentUpon>FInputBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="MapChannelAnalog.cs" />
-    <Compile Include="SatDataBaseFile.cs" />
-    <Compile Include="OtherFile.cs" />
-    <Compile Include="StateChannel.cs" />
-    <Compile Include="MapChannel.cs" />
-    <Compile Include="IChannelFile.cs" />
-    <Compile Include="IChannel.cs" />
+    <Compile Include="Samsung\MapChannelAnalog.cs" />
+    <Compile Include="Samsung\SatDataBaseFile.cs" />
+    <Compile Include="Samsung\OtherFile.cs" />
+    <Compile Include="Samsung\StateChannel.cs" />
+    <Compile Include="Samsung\MapChannel.cs" />
+    <Compile Include="Common\IChannelFile.cs" />
+    <Compile Include="Common\IChannel.cs" />
     <Compile Include="UI\FAboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,7 +105,7 @@
     <Compile Include="UI\ListViewDragAndDrop.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="MapFile.cs" />
+    <Compile Include="Samsung\MapFile.cs" />
     <Compile Include="Utils\MyZipFile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -152,7 +152,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SCMFile.cs" />
+    <Compile Include="Samsung\SCMFile.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="UI\UCSingleEdit.cs">
       <SubType>UserControl</SubType>

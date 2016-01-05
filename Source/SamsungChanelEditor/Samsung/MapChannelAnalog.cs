@@ -19,8 +19,9 @@
 
 using System;
 using System.Text;
+using SamsChannelEditor.Common;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.Samsung
 {
   internal class MapChannelAnalog: IChannel
   {

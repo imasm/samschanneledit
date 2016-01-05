@@ -19,9 +19,10 @@
 
 using System;
 using System.Text;
+using SamsChannelEditor.Common;
 using SamsChannelEditor.Utils;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.Samsung
 {
   internal enum MapChannelType : byte
   {
