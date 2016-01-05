@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SamsChannelEditor", "Samsun
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexComparer", "HexComparer\HexComparer.csproj", "{BC87FE82-6E26-473F-BD27-36568BB6F691}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SamsungFileTests", "SamsungFileTests\SamsungFileTests.csproj", "{503B0248-C841-45C8-AB19-E385653FF3D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,16 +23,20 @@ Global
 		{BC87FE82-6E26-473F-BD27-36568BB6F691}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC87FE82-6E26-473F-BD27-36568BB6F691}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC87FE82-6E26-473F-BD27-36568BB6F691}.Release|Any CPU.Build.0 = Release|Any CPU
+		{503B0248-C841-45C8-AB19-E385653FF3D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{503B0248-C841-45C8-AB19-E385653FF3D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{503B0248-C841-45C8-AB19-E385653FF3D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{503B0248-C841-45C8-AB19-E385653FF3D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_UseGlobalSettings = False
-		BuildVersion_BuildVersioningStyle = None.None.None.None
-		BuildVersion_StartDate = 1975/10/21
-		BuildVersion_UpdateAssemblyVersion = False
-		BuildVersion_UpdateFileVersion = False
 		BuildVersion_AssemblyInfoFilename = 
+		BuildVersion_UpdateFileVersion = False
+		BuildVersion_UpdateAssemblyVersion = False
+		BuildVersion_StartDate = 1975/10/21
+		BuildVersion_BuildVersioningStyle = None.None.None.None
+		BuildVersion_UseGlobalSettings = False
 	EndGlobalSection
 EndGlobal
