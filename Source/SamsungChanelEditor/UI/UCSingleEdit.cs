@@ -649,9 +649,9 @@ namespace SamsChannelEditor.UI
 
           ch.GetType().GetProperty(lvcolumnKey).SetValue(ch, newObj, null);
         }
-        catch (System.ArgumentException ex)
+        catch (ArgumentException ex)
         {
-          MessageBox.Show(SamsChannelEditor.Properties.Resources.READONLYFIELD_EXCEPTION, SamsChannelEditor.Properties.Resources.ERROR_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+          MessageBox.Show(Properties.Resources.READONLYFIELD_EXCEPTION, Properties.Resources.ERROR_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
 #if DEBUG
