@@ -102,7 +102,7 @@
     <Compile Include="UI\FMain.Designer.cs">
       <DependentUpon>FMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListViewDragAndDrop.cs">
+    <Compile Include="UI\ListViewDragAndDrop.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="MapFile.cs" />
@@ -124,7 +124,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCSingleEdit.resx">
+    <EmbeddedResource Include="UI\UCSingleEdit.resx">
       <DependentUpon>UCSingleEdit.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -154,10 +154,10 @@
     </Compile>
     <Compile Include="SCMFile.cs" />
     <Compile Include="Utils\StringUtils.cs" />
-    <Compile Include="UCSingleEdit.cs">
+    <Compile Include="UI\UCSingleEdit.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCSingleEdit.Designer.cs">
+    <Compile Include="UI\UCSingleEdit.Designer.cs">
       <DependentUpon>UCSingleEdit.cs</DependentUpon>
     </Compile>
   </ItemGroup>

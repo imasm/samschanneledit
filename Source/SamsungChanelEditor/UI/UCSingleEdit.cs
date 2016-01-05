@@ -25,9 +25,8 @@ using System.Drawing;
 using System.Globalization;
 using System.Reflection;
 using System.Windows.Forms;
-using SamsChannelEditor.UI;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.UI
 {
   internal partial class UCSingleEdit : UserControl
   {

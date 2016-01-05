@@ -22,7 +22,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.UI
 {
   internal sealed class ListViewDragAndDrop : ListView
   {

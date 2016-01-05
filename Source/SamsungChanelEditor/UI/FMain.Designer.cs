@@ -63,7 +63,7 @@ namespace SamsChannelEditor.UI
       this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
       this.splitContainer1 = new System.Windows.Forms.SplitContainer();
       this.treeView1 = new System.Windows.Forms.TreeView();
-      this.ucSingleEdit1 = new SamsChannelEditor.UCSingleEdit();
+      this.ucSingleEdit1 = new UCSingleEdit();
       this.imageList1 = new System.Windows.Forms.ImageList(this.components);
       this.menuStrip1.SuspendLayout();
       this.statusStrip1.SuspendLayout();
