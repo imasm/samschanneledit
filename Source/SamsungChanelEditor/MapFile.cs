@@ -24,6 +24,7 @@ using System.IO;
 using log4net;
 using System.Configuration;
 using System.Collections.Specialized;
+using SamsChannelEditor.Utils;
 
 namespace SamsChannelEditor
 {

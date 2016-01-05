@@ -17,40 +17,26 @@
 
 #endregion
 
-using System;
+using System.IO;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.Utils
 {
-  internal static class StringUtils
+  internal class FileUtils
   {
-    public static string Reverse(string s)
+    public static long GetFileSize(string filename)
     {
-      var arr = s.ToCharArray();
-      Array.Reverse(arr);
-      return new string(arr);
+      var fi = new FileInfo(filename);
+      return fi.Length;
     }
 
-    public static string RemoveNulls(string s)
+    public static string GetTempDirectory()
     {
-      var pos = s.IndexOf('\0');
-      return pos > 0 ? s.Substring(0, pos) : s;
-    }
+      var path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+      while (Directory.Exists(path))
+        path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
-    public static string Copy(string s, int start, int count)
-    {
-      if (start < 0)
-        start = 0;
-
-      if (start >= s.Length)
-        return "";
-
-      return (start + count) > s.Length ? s.Substring(start) : s.Substring(start, count);
-    }
-
-    internal static int TryToInt32(string s, int defaultnum)
-    {
-      int nout;
-      return Int32.TryParse(s, out nout) ? nout : defaultnum;
+      Directory.CreateDirectory(path);
+      return path;
     }
   }
 }
