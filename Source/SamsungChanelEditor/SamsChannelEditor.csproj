@@ -72,50 +72,50 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChannelList.cs" />
-    <Compile Include="AstraHDChannel.cs" />
-    <Compile Include="CloneInfoFile.cs" />
-    <Compile Include="EditableAttribute.cs" />
-    <Compile Include="FInputBox.cs">
+    <Compile Include="Common\ChannelList.cs" />
+    <Compile Include="Samsung\AstraHDChannel.cs" />
+    <Compile Include="Samsung\CloneInfoFile.cs" />
+    <Compile Include="Common\EditableAttribute.cs" />
+    <Compile Include="UI\FInputBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FInputBox.designer.cs">
+    <Compile Include="UI\FInputBox.designer.cs">
       <DependentUpon>FInputBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="MapChannelAnalog.cs" />
-    <Compile Include="SatDataBaseFile.cs" />
-    <Compile Include="OtherFile.cs" />
-    <Compile Include="StateChannel.cs" />
-    <Compile Include="MapChannel.cs" />
-    <Compile Include="IChannelFile.cs" />
-    <Compile Include="IChannel.cs" />
-    <Compile Include="FAboutBox.cs">
+    <Compile Include="Samsung\MapChannelAnalog.cs" />
+    <Compile Include="Samsung\SatDataBaseFile.cs" />
+    <Compile Include="Samsung\OtherFile.cs" />
+    <Compile Include="Samsung\StateChannel.cs" />
+    <Compile Include="Samsung\MapChannel.cs" />
+    <Compile Include="Common\IChannelFile.cs" />
+    <Compile Include="Common\IChannel.cs" />
+    <Compile Include="UI\FAboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FAboutBox.Designer.cs">
+    <Compile Include="UI\FAboutBox.Designer.cs">
       <DependentUpon>FAboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="FileUtils.cs" />
-    <Compile Include="FMain.cs">
+    <Compile Include="Utils\FileUtils.cs" />
+    <Compile Include="UI\FMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FMain.Designer.cs">
+    <Compile Include="UI\FMain.Designer.cs">
       <DependentUpon>FMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListViewDragAndDrop.cs">
+    <Compile Include="UI\ListViewDragAndDrop.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="MapFile.cs" />
-    <Compile Include="MyZipFile.cs" />
+    <Compile Include="Samsung\MapFile.cs" />
+    <Compile Include="Utils\MyZipFile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FAboutBox.resx">
+    <EmbeddedResource Include="UI\FAboutBox.resx">
       <DependentUpon>FAboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FInputBox.resx">
+    <EmbeddedResource Include="UI\FInputBox.resx">
       <DependentUpon>FInputBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FMain.resx">
+    <EmbeddedResource Include="UI\FMain.resx">
       <DependentUpon>FMain.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -124,7 +124,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UCSingleEdit.resx">
+    <EmbeddedResource Include="UI\UCSingleEdit.resx">
       <DependentUpon>UCSingleEdit.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -133,14 +133,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Content Include="..\LICENSE">
+    <None Include="..\..\LICENSE">
       <Link>LICENSE</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\README.md">
+    </None>
+    <None Include="..\..\README.md">
       <Link>README.md</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
     <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -152,12 +152,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SCMFile.cs" />
-    <Compile Include="StringUtils.cs" />
-    <Compile Include="UCSingleEdit.cs">
+    <Compile Include="Samsung\SCMFile.cs" />
+    <Compile Include="Utils\StringUtils.cs" />
+    <Compile Include="UI\UCSingleEdit.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UCSingleEdit.Designer.cs">
+    <Compile Include="UI\UCSingleEdit.Designer.cs">
       <DependentUpon>UCSingleEdit.cs</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -191,6 +191,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -201,7 +202,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_StartDate="2000/1/1" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UseGlobalSettings="False" />
+      <UserProperties BuildVersion_UseGlobalSettings="False" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="" BuildVersion_ConfigurationName="Release" BuildVersion_BuildVersioningStyle="None.None.Increment.TimeStamp" BuildVersion_StartDate="2000/1/1" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

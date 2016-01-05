@@ -18,7 +18,7 @@
 #endregion
 
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.Common
 {
   internal interface IChannel
   {

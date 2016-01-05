@@ -20,7 +20,7 @@
 using System;
 using System.Text;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.Samsung
 {
   internal class AstraHDChannel : MapChannel
   {

@@ -25,8 +25,10 @@ using System.Drawing;
 using System.Globalization;
 using System.Reflection;
 using System.Windows.Forms;
+using SamsChannelEditor.Common;
+using SamsChannelEditor.Samsung;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.UI
 {
   internal partial class UCSingleEdit : UserControl
   {
@@ -647,9 +649,9 @@ namespace SamsChannelEditor
 
           ch.GetType().GetProperty(lvcolumnKey).SetValue(ch, newObj, null);
         }
-        catch (System.ArgumentException ex)
+        catch (ArgumentException ex)
         {
-          MessageBox.Show(SamsChannelEditor.Properties.Resources.READONLYFIELD_EXCEPTION, SamsChannelEditor.Properties.Resources.ERROR_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
+          MessageBox.Show(Properties.Resources.READONLYFIELD_EXCEPTION, Properties.Resources.ERROR_CAPTION, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
 #if DEBUG

@@ -17,40 +17,30 @@
 
 #endregion
 
-using System;
+using System.Text;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.Samsung
 {
-  internal static class StringUtils
+  internal class StateChannel : MapChannel
   {
-    public static string Reverse(string s)
+    public StateChannel(int pos, byte[] buffer)
+      : base(pos, buffer)
     {
-      var arr = s.ToCharArray();
-      Array.Reverse(arr);
-      return new string(arr);
     }
 
-    public static string RemoveNulls(string s)
+    public override string Name
     {
-      var pos = s.IndexOf('\0');
-      return pos > 0 ? s.Substring(0, pos) : s;
+      get { return Encoding.Unicode.GetString(Data, 0x25, 100); }
     }
 
-    public static string Copy(string s, int start, int count)
+    public override string ChannelType
     {
-      if (start < 0)
-        start = 0;
-
-      if (start >= s.Length)
-        return "";
-
-      return (start + count) > s.Length ? s.Substring(start) : s.Substring(start, count);
+      get { return ((MapChannelType) Data[0x0E]).ToString(); }
     }
 
-    internal static int TryToInt32(string s, int defaultnum)
+    public override bool IsEncrypted
     {
-      int nout;
-      return Int32.TryParse(s, out nout) ? nout : defaultnum;
+      get { return false; } // return (data[24] == 1); }
     }
   }
 }

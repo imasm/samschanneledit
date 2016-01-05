@@ -17,7 +17,7 @@
 
 #endregion
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.UI
 {
   sealed partial class FAboutBox
   {

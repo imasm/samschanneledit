@@ -21,8 +21,9 @@ using System;
 using System.Data;
 using System.IO;
 using System.Text;
+using SamsChannelEditor.Utils;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.Samsung
 {
   internal class CloneInfoFile: OtherFile
   {

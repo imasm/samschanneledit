@@ -17,15 +17,26 @@
 
 #endregion
 
+using System.IO;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.Utils
 {
-  internal interface IChannelFile
+  internal class FileUtils
   {
-    string FileName { get; set; }
-    bool ReadFrom(string directory);
-    bool SaveTo(string directory);
+    public static long GetFileSize(string filename)
+    {
+      var fi = new FileInfo(filename);
+      return fi.Length;
+    }
 
-    ChannelList Channels { get; }
+    public static string GetTempDirectory()
+    {
+      var path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+      while (Directory.Exists(path))
+        path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+
+      Directory.CreateDirectory(path);
+      return path;
+    }
   }
 }

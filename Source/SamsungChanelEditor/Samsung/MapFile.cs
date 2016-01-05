@@ -19,13 +19,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using log4net;
-using System.Configuration;
 using System.Collections.Specialized;
+using System.Configuration;
+using System.IO;
+using System.Text;
+using log4net;
+using SamsChannelEditor.Common;
+using SamsChannelEditor.Utils;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.Samsung
 {
   internal class MapFile: IChannelFile
   {

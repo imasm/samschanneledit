@@ -17,7 +17,7 @@
 
 #endregion
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.UI
 {
   partial class UCSingleEdit
   {
@@ -58,7 +58,7 @@ namespace SamsChannelEditor
 		this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
 		this.jumpToToolStripMenuItem = new System.Windows.Forms.ToolStripTextBox();
 		this.nextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-		this.listView1 = new SamsChannelEditor.ListViewDragAndDrop();
+		this.listView1 = new ListViewDragAndDrop();
 		this.contextMenuStrip1.SuspendLayout();
 		this.SuspendLayout();
 		// 
@@ -161,7 +161,7 @@ namespace SamsChannelEditor
 		this.listView1.TabIndex = 1;
 		this.listView1.UseCompatibleStateImageBehavior = false;
 		this.listView1.View = System.Windows.Forms.View.Details;
-		this.listView1.AfterDragAndDrop += new SamsChannelEditor.ListViewDragAndDrop.AfterDragAndDropEventHandler(this.listView1_AfterDragAndDrop);
+		this.listView1.AfterDragAndDrop += new ListViewDragAndDrop.AfterDragAndDropEventHandler(this.listView1_AfterDragAndDrop);
 		this.listView1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.listView1_ItemCheck);
 		this.listView1.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listView1_ItemChecked);		
 		this.listView1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseDoubleClick);

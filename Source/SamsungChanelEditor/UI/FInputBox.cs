@@ -20,7 +20,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.UI
 {
     public partial class FInputBox : Form
     {

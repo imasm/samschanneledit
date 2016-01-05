@@ -22,7 +22,7 @@ using System.Data;
 using System.IO;
 using System.Text;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.Samsung
 {
   internal class SatDataBaseFile: OtherFile
   {

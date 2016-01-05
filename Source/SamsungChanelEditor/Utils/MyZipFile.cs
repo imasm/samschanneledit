@@ -24,7 +24,7 @@ using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using log4net;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.Utils
 {
   internal class MyZipFile
   {

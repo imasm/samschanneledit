@@ -21,7 +21,7 @@ using System.Data;
 using System.IO;
 using log4net;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.Samsung
 {
   internal abstract class OtherFile
   {
