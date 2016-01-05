@@ -18,11 +18,11 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Forms;
-using System.Diagnostics;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.UI
 {
   sealed partial class FAboutBox : Form
   {

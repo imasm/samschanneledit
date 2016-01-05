@@ -23,7 +23,7 @@ using System.IO;
 using System.Windows.Forms;
 using log4net;
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.UI
 {
   public partial class FMain : Form
   {

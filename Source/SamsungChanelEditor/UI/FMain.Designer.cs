@@ -17,7 +17,7 @@
 
 #endregion
 
-namespace SamsChannelEditor
+namespace SamsChannelEditor.UI
 {
   partial class FMain
   {
