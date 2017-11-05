@@ -1,6 +1,6 @@
-﻿#region Copyright (C) 2011 Ivan Masmitja
+﻿#region Copyright (C) 2011-2017 Ivan Masmitjà
 
-// Copyright (C) 2011 Ivan Masmitja
+// Copyright (C) 2011-2017 Ivan Masmitjà
 // 
 // SamsChannelEditor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,34 +17,33 @@
 
 #endregion
 
-
 namespace SamsChannelEditor.Common
 {
-  internal interface IChannel
-  {
-    bool IsOk();
-    int FilePosition { get; }
-    byte[] Data { get; }
+    internal interface IChannel
+    {
+        bool IsOk();
+        int FilePosition { get; }
+        byte[] Data { get; }
 
-    short Number { get; set;  }
-	string Name { get; set; }
-    string ChannelType { get; }
-    bool IsEncrypted { get; }
-    long Frequency { get; }
-    ushort ServiceID { get; }
-    ushort Multiplex_TSID { get; }
-    ushort Multiplex_ONID { get; }
-    ushort Network { get; }
-    bool Deleted { get; set; }
-    bool Active { get; set; }
+        short Number { get; set; }
+        string Name { get; set; }
+        string ChannelType { get; }
+        bool IsEncrypted { get; }
+        long Frequency { get; }
+        ushort ServiceID { get; }
+        ushort Multiplex_TSID { get; }
+        ushort Multiplex_ONID { get; }
+        ushort Network { get; }
+        bool Deleted { get; set; }
+        bool Active { get; set; }
 
-	bool FavoriteList1 { get; set; }
-	bool FavoriteList2 { get; set; }
-	bool FavoriteList3 { get; set; }
-	bool FavoriteList4 { get; set; }
+        bool FavoriteList1 { get; set; }
+        bool FavoriteList2 { get; set; }
+        bool FavoriteList3 { get; set; }
+        bool FavoriteList4 { get; set; }
 
-	bool Locked { get; set; }
-    
-    byte CalcChecksum(bool save);
-  }
+        bool Locked { get; set; }
+
+        byte CalcChecksum(bool save);
+    }
 }

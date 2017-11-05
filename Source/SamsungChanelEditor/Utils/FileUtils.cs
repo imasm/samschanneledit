@@ -1,6 +1,6 @@
-﻿#region Copyright (C) 2011 Ivan Masmitja
+﻿#region Copyright (C) 2011-2017 Ivan Masmitjà
 
-// Copyright (C) 2011 Ivan Masmitja
+// Copyright (C) 2011-2017 Ivan Masmitjà
 // 
 // SamsChannelEditor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,22 +21,22 @@ using System.IO;
 
 namespace SamsChannelEditor.Utils
 {
-  internal class FileUtils
-  {
-    public static long GetFileSize(string filename)
+    internal class FileUtils
     {
-      var fi = new FileInfo(filename);
-      return fi.Length;
-    }
+        public static long GetFileSize(string filename)
+        {
+            var fi = new FileInfo(filename);
+            return fi.Length;
+        }
 
-    public static string GetTempDirectory()
-    {
-      var path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
-      while (Directory.Exists(path))
-        path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        public static string GetTempDirectory()
+        {
+            var path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            while (Directory.Exists(path))
+                path = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
-      Directory.CreateDirectory(path);
-      return path;
+            Directory.CreateDirectory(path);
+            return path;
+        }
     }
-  }
 }

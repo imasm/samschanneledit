@@ -1,6 +1,6 @@
-﻿#region Copyright (C) 2011 Ivan Masmitja
+﻿#region Copyright (C) 2011-2017 Ivan Masmitjà
 
-// Copyright (C) 2011 Ivan Masmitja
+// Copyright (C) 2011-2017 Ivan Masmitjà
 // 
 // SamsChannelEditor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,53 +22,53 @@ using System.Text;
 
 namespace SamsChannelEditor.Samsung
 {
-  internal class AstraHDChannel : MapChannel
-  {
-    public AstraHDChannel(int pos, byte[] buffer)
-      : base(pos, buffer)
+    internal class AstraHDChannel : MapChannel
     {
-    }
+        public AstraHDChannel(int pos, byte[] buffer)
+          : base(pos, buffer)
+        {
+        }
 
-    public override string Name
-    {
-      get
-      {
-        return Encoding.Unicode.GetString(Data, 0x31, 100);
-      }
-    }
+        public override string Name
+        {
+            get
+            {
+                return Encoding.Unicode.GetString(Data, 0x31, 100);
+            }
+        }
 
-    public override string ChannelType
-    {
-      get
-      {
-        return ((MapChannelType)Data[14]).ToString();
-      }
-    }
+        public override string ChannelType
+        {
+            get
+            {
+                return ((MapChannelType)Data[14]).ToString();
+            }
+        }
 
-    public override ushort Multiplex_ONID
-    {
-        get { return BitConverter.ToUInt16(Data, 32); }
-    }
+        public override ushort Multiplex_ONID
+        {
+            get { return BitConverter.ToUInt16(Data, 32); }
+        }
 
-    public override ushort Multiplex_TSID
-    {
-        get { return BitConverter.ToUInt16(Data, 36); }
-    }
+        public override ushort Multiplex_TSID
+        {
+            get { return BitConverter.ToUInt16(Data, 36); }
+        }
 
-    public override ushort Network
-    {
-      get { return 0; }
-    }
+        public override ushort Network
+        {
+            get { return 0; }
+        }
 
-    public override ushort ServiceID
-    {
-        get { return BitConverter.ToUInt16(Data, 16); }
-    }
+        public override ushort ServiceID
+        {
+            get { return BitConverter.ToUInt16(Data, 16); }
+        }
 
-    //TODO: Discover
-    public override bool IsEncrypted
-    {
-      get { return (Data[180] == 1); }
+        //TODO: Discover
+        public override bool IsEncrypted
+        {
+            get { return (Data[180] == 1); }
+        }
     }
-  }
 }

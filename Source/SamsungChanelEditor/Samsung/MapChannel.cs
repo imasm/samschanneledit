@@ -1,6 +1,6 @@
-﻿#region Copyright (C) 2011 Ivan Masmitja
+﻿#region Copyright (C) 2011-2017 Ivan Masmitjà
 
-// Copyright (C) 2011 Ivan Masmitja
+// Copyright (C) 2011-2017 Ivan Masmitjà
 // 
 // SamsChannelEditor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,259 +24,259 @@ using SamsChannelEditor.Utils;
 
 namespace SamsChannelEditor.Samsung
 {
-  internal enum MapChannelType : byte
-  {
-    None = 0x00,
-    TV = 0x01,
-    Radio = 0x02,
-    Data = 0x0C,
-    HD = 0x19,
-    Other = 0xFF, // wildcard for new models not supported
-  }
-
-  internal class MapChannel : IChannel
-  {
-    private bool _isDeleted;
-
-    public int FilePosition { get; set; }
-
-    public bool Deleted
+    internal enum MapChannelType : byte
     {
-      get { return _isDeleted; }
-      set { _isDeleted = value; }
+        None = 0x00,
+        TV = 0x01,
+        Radio = 0x02,
+        Data = 0x0C,
+        HD = 0x19,
+        Other = 0xFF, // wildcard for new models not supported
     }
 
-    public bool Active
+    internal class MapChannel : IChannel
     {
-      get { return !_isDeleted; }
-      set { _isDeleted = !value; }
-    }
+        private bool _isDeleted;
 
-    public byte[] Data { get; private set; }
+        public int FilePosition { get; set; }
 
-    public MapChannel(int pos, byte[] buffer)
-    {
-      _isDeleted = false;
-      FilePosition = pos;
-      Data = (byte[]) buffer.Clone();
-    }
-
-    public short Number
-    {
-      get { return BitConverter.ToInt16(Data, 0); }
-
-      set
-      {
-        Int16 sh = value;
-        byte[] b = BitConverter.GetBytes(sh);
-
-        Data[0] = b[0];
-        Data[1] = b[1];
-      }
-    }
-
-    [Editable]
-    public virtual string Name
-    {
-      get { return StringUtils.RemoveNulls(Encoding.BigEndianUnicode.GetString(Data, 64, 100)); }
-      set
-      {
-        byte[] newName = Encoding.BigEndianUnicode.GetBytes(value);
-        Array.Clear(Data,64,100);
-        newName.CopyTo(Data, 64);
-      }
-    }
-
-
-    public virtual string ChannelType
-    {
-      get
-      {
-        MapChannelType ct = GetMapChannelType(Data[15]);
-        return ct != MapChannelType.Other ? ct.ToString() : "";
-      }
-    }
-
-    public virtual bool IsEncrypted
-    {
-      get { return (Data[24] == 1); }
-    }
-
-    public virtual long Frequency
-    {
-      //TODO: Search Freq. field
-      get { return 0; }
-    }
-
-    public virtual ushort Network
-    {
-      get { return BitConverter.ToUInt16(Data, 34); }
-    }
-
-    public virtual ushort ServiceID
-    {
-      get { return BitConverter.ToUInt16(Data, 6); }
-    }
-
-    public virtual ushort Multiplex_TSID
-    {
-      get { return BitConverter.ToUInt16(Data, 48); }
-    }
-
-    public virtual ushort Multiplex_ONID
-    {
-      get { return BitConverter.ToUInt16(Data, 32); }
-    }
-
-    [Editable]
-    public virtual bool FavoriteList1
-    {
-      get
-      {
-        if (Data.Length > 290)
-          return ((Data[290] & 0x01) > 0);
-        return false;
-      }
-      set
-      {
-        if (Data.Length <= 290)
-          return;
-
-        if (value)
+        public bool Deleted
         {
-          Data[290] |= 0x01;
+            get { return _isDeleted; }
+            set { _isDeleted = value; }
         }
-        else
+
+        public bool Active
         {
-          Data[290] &= 0xFE;
+            get { return !_isDeleted; }
+            set { _isDeleted = !value; }
         }
-      }
-    }
 
-    [Editable]
-    public virtual bool FavoriteList2
-    {
-      get
-      {
-        if (Data.Length > 290)
-          return ((Data[290] & 0x02) > 0);
-        return false;
-      }
-      set
-      {
-        if (Data.Length <= 290)
-          return;
+        public byte[] Data { get; private set; }
 
-        if (value)
+        public MapChannel(int pos, byte[] buffer)
         {
-          Data[290] |= 0x02;
+            _isDeleted = false;
+            FilePosition = pos;
+            Data = (byte[])buffer.Clone();
         }
-        else
+
+        public short Number
         {
-          Data[290] &= 0xFD;
+            get { return BitConverter.ToInt16(Data, 0); }
+
+            set
+            {
+                Int16 sh = value;
+                byte[] b = BitConverter.GetBytes(sh);
+
+                Data[0] = b[0];
+                Data[1] = b[1];
+            }
         }
-      }
-    }
 
-    [Editable]
-    public virtual bool FavoriteList3
-    {
-      get
-      {
-        if (Data.Length > 290)
-          return ((Data[290] & 0x04) > 0);
-        return false;
-      }
-      set
-      {
-        if (Data.Length <= 290)
-          return;
-
-        if (value)
+        [Editable]
+        public virtual string Name
         {
-          Data[290] |= 0x04;
+            get { return StringUtils.RemoveNulls(Encoding.BigEndianUnicode.GetString(Data, 64, 100)); }
+            set
+            {
+                byte[] newName = Encoding.BigEndianUnicode.GetBytes(value);
+                Array.Clear(Data, 64, 100);
+                newName.CopyTo(Data, 64);
+            }
         }
-        else
+
+
+        public virtual string ChannelType
         {
-          Data[290] &= 0xFB;
+            get
+            {
+                MapChannelType ct = GetMapChannelType(Data[15]);
+                return ct != MapChannelType.Other ? ct.ToString() : "";
+            }
         }
-      }
-    }
 
-    [Editable]
-    public virtual bool FavoriteList4
-    {
-      get
-      {
-        if (Data.Length > 290)
-          return ((Data[290] & 0x08) > 0);
-        return false;
-      }
-      set
-      {
-        if (Data.Length <= 290)
-          return;
-
-        if (value)
+        public virtual bool IsEncrypted
         {
-          Data[290] |= 0x08;
+            get { return (Data[24] == 1); }
         }
-        else
+
+        public virtual long Frequency
         {
-          Data[290] &= 0xF7;
+            //TODO: Search Freq. field
+            get { return 0; }
         }
-      }
-    }
 
-    [Editable]
-    public virtual bool Locked
-    {
-      get { return Data[31] == 0x01; }
-      set
-      {
-        if (value)
+        public virtual ushort Network
         {
-          Data[31] = 0x01;
+            get { return BitConverter.ToUInt16(Data, 34); }
         }
-        else
+
+        public virtual ushort ServiceID
         {
-          Data[31] = 0x00;
+            get { return BitConverter.ToUInt16(Data, 6); }
         }
-      }
+
+        public virtual ushort Multiplex_TSID
+        {
+            get { return BitConverter.ToUInt16(Data, 48); }
+        }
+
+        public virtual ushort Multiplex_ONID
+        {
+            get { return BitConverter.ToUInt16(Data, 32); }
+        }
+
+        [Editable]
+        public virtual bool FavoriteList1
+        {
+            get
+            {
+                if (Data.Length > 290)
+                    return ((Data[290] & 0x01) > 0);
+                return false;
+            }
+            set
+            {
+                if (Data.Length <= 290)
+                    return;
+
+                if (value)
+                {
+                    Data[290] |= 0x01;
+                }
+                else
+                {
+                    Data[290] &= 0xFE;
+                }
+            }
+        }
+
+        [Editable]
+        public virtual bool FavoriteList2
+        {
+            get
+            {
+                if (Data.Length > 290)
+                    return ((Data[290] & 0x02) > 0);
+                return false;
+            }
+            set
+            {
+                if (Data.Length <= 290)
+                    return;
+
+                if (value)
+                {
+                    Data[290] |= 0x02;
+                }
+                else
+                {
+                    Data[290] &= 0xFD;
+                }
+            }
+        }
+
+        [Editable]
+        public virtual bool FavoriteList3
+        {
+            get
+            {
+                if (Data.Length > 290)
+                    return ((Data[290] & 0x04) > 0);
+                return false;
+            }
+            set
+            {
+                if (Data.Length <= 290)
+                    return;
+
+                if (value)
+                {
+                    Data[290] |= 0x04;
+                }
+                else
+                {
+                    Data[290] &= 0xFB;
+                }
+            }
+        }
+
+        [Editable]
+        public virtual bool FavoriteList4
+        {
+            get
+            {
+                if (Data.Length > 290)
+                    return ((Data[290] & 0x08) > 0);
+                return false;
+            }
+            set
+            {
+                if (Data.Length <= 290)
+                    return;
+
+                if (value)
+                {
+                    Data[290] |= 0x08;
+                }
+                else
+                {
+                    Data[290] &= 0xF7;
+                }
+            }
+        }
+
+        [Editable]
+        public virtual bool Locked
+        {
+            get { return Data[31] == 0x01; }
+            set
+            {
+                if (value)
+                {
+                    Data[31] = 0x01;
+                }
+                else
+                {
+                    Data[31] = 0x00;
+                }
+            }
+        }
+
+        public virtual bool IsOk()
+        {
+            return (BitConverter.ToInt16(Data, 0) > 0);
+        }
+
+        public byte CalcChecksum()
+        {
+            return CalcChecksum(false);
+        }
+
+        public virtual byte CalcChecksum(bool saveindata)
+        {
+            byte ck = 0;
+            for (int i = 0; i < Data.Length - 1; i++)
+                ck += Data[i];
+
+            if (saveindata)
+                Data[Data.Length - 1] = ck;
+
+            return ck;
+        }
+
+        protected MapChannelType GetMapChannelType(byte b)
+        {
+            try
+            {
+                return (MapChannelType)b;
+            }
+            catch
+            {
+                return MapChannelType.Other;
+            }
+        }
     }
-
-    public virtual bool IsOk()
-    {
-      return (BitConverter.ToInt16(Data, 0) > 0);
-    }
-
-    public byte CalcChecksum()
-    {
-      return CalcChecksum(false);
-    }
-
-    public virtual byte CalcChecksum(bool saveindata)
-    {
-      byte ck = 0;
-      for (int i = 0; i < Data.Length - 1; i++)
-        ck += Data[i];
-
-      if (saveindata)
-        Data[Data.Length - 1] = ck;
-
-      return ck;
-    }
-
-    protected MapChannelType GetMapChannelType(byte b)
-    {
-      try
-      {
-        return (MapChannelType) b;
-      }
-      catch
-      {
-        return MapChannelType.Other;
-      }
-    }
-  }
 }

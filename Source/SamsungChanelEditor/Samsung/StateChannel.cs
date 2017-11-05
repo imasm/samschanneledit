@@ -1,6 +1,6 @@
-﻿#region Copyright (C) 2011 Ivan Masmitja
+﻿#region Copyright (C) 2011-2017 Ivan Masmitjà
 
-// Copyright (C) 2011 Ivan Masmitja
+// Copyright (C) 2011-2017 Ivan Masmitjà
 // 
 // SamsChannelEditor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -21,26 +21,26 @@ using System.Text;
 
 namespace SamsChannelEditor.Samsung
 {
-  internal class StateChannel : MapChannel
-  {
-    public StateChannel(int pos, byte[] buffer)
-      : base(pos, buffer)
+    internal class StateChannel : MapChannel
     {
-    }
+        public StateChannel(int pos, byte[] buffer)
+          : base(pos, buffer)
+        {
+        }
 
-    public override string Name
-    {
-      get { return Encoding.Unicode.GetString(Data, 0x25, 100); }
-    }
+        public override string Name
+        {
+            get { return Encoding.Unicode.GetString(Data, 0x25, 100); }
+        }
 
-    public override string ChannelType
-    {
-      get { return ((MapChannelType) Data[0x0E]).ToString(); }
-    }
+        public override string ChannelType
+        {
+            get { return ((MapChannelType)Data[0x0E]).ToString(); }
+        }
 
-    public override bool IsEncrypted
-    {
-      get { return false; } // return (data[24] == 1); }
+        public override bool IsEncrypted
+        {
+            get { return false; } // return (data[24] == 1); }
+        }
     }
-  }
 }

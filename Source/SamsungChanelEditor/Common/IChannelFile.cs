@@ -1,6 +1,6 @@
-﻿#region Copyright (C) 2011 Ivan Masmitja
+﻿#region Copyright (C) 2011-2017 Ivan Masmitjà
 
-// Copyright (C) 2011 Ivan Masmitja
+// Copyright (C) 2011-2017 Ivan Masmitjà
 // 
 // SamsChannelEditor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,12 +19,12 @@
 
 namespace SamsChannelEditor.Common
 {
-  internal interface IChannelFile
-  {
-    string FileName { get; set; }
-    bool ReadFrom(string directory);
-    bool SaveTo(string directory);
+    internal interface IChannelFile
+    {
+        string FileName { get; set; }
+        bool ReadFrom(string directory);
+        bool SaveTo(string directory);
 
-    ChannelList Channels { get; }
-  }
+        ChannelList Channels { get; }
+    }
 }

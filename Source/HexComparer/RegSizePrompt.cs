@@ -1,6 +1,6 @@
-﻿#region Copyright (C) 2011 Ivan Masmitja
+﻿#region Copyright (C) 2011-2017 Ivan Masmitjà
 
-// Copyright (C) 2011 Ivan Masmitja
+// Copyright (C) 2011-2017 Ivan Masmitjà
 // 
 // SamsChannelEditor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -23,38 +23,38 @@ using System.Windows.Forms;
 
 namespace HexComparer
 {
-  public partial class RegSizePrompt : Form
-  {
-    public string Filename {get; set; }
-    public int RegSize { get; private set; }
-
-    public RegSizePrompt()
+    public partial class RegSizePrompt : Form
     {
-      InitializeComponent();
-      RegSize = 0;
+        public string Filename { get; set; }
+        public int RegSize { get; private set; }
+
+        public RegSizePrompt()
+        {
+            InitializeComponent();
+            RegSize = 0;
+        }
+
+        private void RegSizePrompt_Load(object sender, EventArgs e)
+        {
+            var fi = new FileInfo(Filename);
+            lblFileName.Text = Path.GetFileName(Filename);
+            lblFileSize.Text = fi.Length + " bytes";
+
+            if (fi.Length >= 1000)
+                nudRegSize.Value = (decimal)fi.Length / 1000;
+            else
+                nudRegSize.Value = fi.Length;
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+        }
+
+        private void btnOk_Click(object sender, EventArgs e)
+        {
+            RegSize = (int)nudRegSize.Value;
+            DialogResult = DialogResult.OK;
+        }
     }
-
-    private void RegSizePrompt_Load(object sender, EventArgs e)
-    {
-      var fi = new FileInfo(Filename);
-      lblFileName.Text = Path.GetFileName(Filename);
-      lblFileSize.Text = fi.Length + " bytes";
-
-      if (fi.Length >= 1000)
-        nudRegSize.Value = (decimal)fi.Length / 1000;
-      else
-        nudRegSize.Value = fi.Length;
-    }
-
-    private void btnCancel_Click(object sender, EventArgs e)
-    {
-      DialogResult = DialogResult.Cancel;
-    }
-
-    private void btnOk_Click(object sender, EventArgs e)
-    {
-      RegSize = (int)nudRegSize.Value;
-      DialogResult = DialogResult.OK;
-    }    
-  }
 }

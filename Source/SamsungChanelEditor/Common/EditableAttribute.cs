@@ -2,9 +2,9 @@
 
 namespace SamsChannelEditor.Common
 {
-  [AttributeUsage(AttributeTargets.Property)]
-  internal class EditableAttribute : Attribute
-  {
-  }
+    [AttributeUsage(AttributeTargets.Property)]
+    internal class EditableAttribute : Attribute
+    {
+    }
 }
 

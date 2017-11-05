@@ -1,6 +1,6 @@
-﻿#region Copyright (C) 2011 Ivan Masmitja
+﻿#region Copyright (C) 2011-2017 Ivan Masmitjà
 
-// Copyright (C) 2011 Ivan Masmitja
+// Copyright (C) 2011-2017 Ivan Masmitjà
 // 
 // SamsChannelEditor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,39 +24,39 @@ using System.Text;
 
 namespace SamsChannelEditor.Samsung
 {
-  internal class SatDataBaseFile: OtherFile
-  {
-    readonly byte[] _regtmp;
-
-    public SatDataBaseFile(string filename)
-      :base(filename, SCMFileContentType.satDataBase)
+    internal class SatDataBaseFile : OtherFile
     {
-      _regtmp = new  byte[145];
-    }
+        readonly byte[] _regtmp;
 
-    public override DataTable CreateDataTable()
-    {
-      var dt = new DataTable();
-      dt.Columns.Add("#", typeof(int));
-      dt.Columns.Add("Satellite", typeof(String));
-      return dt;
-    }
-
-    public override bool ReadFile(string fullPathFileName)
-    {
-      var idx = 0;
-      using (var fs = File.Open(fullPathFileName, FileMode.Open))
-      {
-        while (fs.Read(_regtmp, 0, _regtmp.Length) == _regtmp.Length)
+        public SatDataBaseFile(string filename)
+          : base(filename, SCMFileContentType.satDataBase)
         {
-          idx++;
-          var dr = DataTable.NewRow();
-          dr[0] = idx;
-          dr[1] = Encoding.Unicode.GetString(_regtmp, 0x0D, 50);
-          DataTable.Rows.Add(dr);
+            _regtmp = new byte[145];
         }
-      }
-      return true;
+
+        public override DataTable CreateDataTable()
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("#", typeof(int));
+            dt.Columns.Add("Satellite", typeof(String));
+            return dt;
+        }
+
+        public override bool ReadFile(string fullPathFileName)
+        {
+            var idx = 0;
+            using (var fs = File.Open(fullPathFileName, FileMode.Open))
+            {
+                while (fs.Read(_regtmp, 0, _regtmp.Length) == _regtmp.Length)
+                {
+                    idx++;
+                    var dr = DataTable.NewRow();
+                    dr[0] = idx;
+                    dr[1] = Encoding.Unicode.GetString(_regtmp, 0x0D, 50);
+                    DataTable.Rows.Add(dr);
+                }
+            }
+            return true;
+        }
     }
-  }
 }

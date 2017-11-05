@@ -1,6 +1,6 @@
-﻿#region Copyright (C) 2011 Ivan Masmitja
+﻿#region Copyright (C) 2011-2017 Ivan Masmitjà
 
-// Copyright (C) 2011 Ivan Masmitja
+// Copyright (C) 2011-2017 Ivan Masmitjà
 // 
 // SamsChannelEditor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -25,40 +25,40 @@ using SamsChannelEditor.Utils;
 
 namespace SamsChannelEditor.Samsung
 {
-  internal class CloneInfoFile: OtherFile
-  {
-    readonly byte[] _regtmp = new  byte[68];
-
-    public CloneInfoFile(string filename, SCMFileContentType maptype)
-      :base(filename, maptype)
+    internal class CloneInfoFile : OtherFile
     {
-    }
+        readonly byte[] _regtmp = new byte[68];
 
-    public override DataTable CreateDataTable()
-    {
-      var dt = new DataTable();
-      dt.Columns.Add("Country ID", typeof(String));
-      dt.Columns.Add("TV Model", typeof(String));
-      return dt;
-    }
-
-    public override bool ReadFile(string fullPathFileName)
-    {
-      using (var fs = File.Open(fullPathFileName, FileMode.Open))
-      {
-        int readed = fs.Read(_regtmp, 0, _regtmp.Length);
-        if (readed > 0)
+        public CloneInfoFile(string filename, SCMFileContentType maptype)
+          : base(filename, maptype)
         {
-          var pais = StringUtils.Reverse(Encoding.ASCII.GetString(_regtmp, 0x00, 3));
-          var model = Encoding.ASCII.GetString(_regtmp, 0x04, 15);
-
-          DataRow dr = DataTable.NewRow();
-          dr[0] = pais;
-          dr[1] = model;
-          DataTable.Rows.Add(dr);
         }
-      }
-      return true;
+
+        public override DataTable CreateDataTable()
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("Country ID", typeof(String));
+            dt.Columns.Add("TV Model", typeof(String));
+            return dt;
+        }
+
+        public override bool ReadFile(string fullPathFileName)
+        {
+            using (var fs = File.Open(fullPathFileName, FileMode.Open))
+            {
+                int readed = fs.Read(_regtmp, 0, _regtmp.Length);
+                if (readed > 0)
+                {
+                    var pais = StringUtils.Reverse(Encoding.ASCII.GetString(_regtmp, 0x00, 3));
+                    var model = Encoding.ASCII.GetString(_regtmp, 0x04, 15);
+
+                    DataRow dr = DataTable.NewRow();
+                    dr[0] = pais;
+                    dr[1] = model;
+                    DataTable.Rows.Add(dr);
+                }
+            }
+            return true;
+        }
     }
-  }
 }

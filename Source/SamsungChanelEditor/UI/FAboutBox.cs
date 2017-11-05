@@ -1,6 +1,6 @@
-﻿#region Copyright (C) 2011 Ivan Masmitja
+﻿#region Copyright (C) 2011-2017 Ivan Masmitjà
 
-// Copyright (C) 2011 Ivan Masmitja
+// Copyright (C) 2011-2017 Ivan Masmitjà
 // 
 // SamsChannelEditor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,112 +24,112 @@ using System.Windows.Forms;
 
 namespace SamsChannelEditor.UI
 {
-  sealed partial class FAboutBox : Form
-  {
-    public FAboutBox()
+    sealed partial class FAboutBox : Form
     {
-      InitializeComponent();
-      Text = String.Format("About {0}", AssemblyTitle);
-      labelProductName.Text = AssemblyProduct;
-      labelVersion.Text = AssemblyVersion;
-      labelCopyright.Text = AssemblyCopyright;
-      labelCompanyName.Text = AssemblyCompany;
-      textBoxDescription.Text = AssemblyDescription;
-      
-      //linkLabelWebsite.Text = @"http://samschanneledit.sourceforge.net/";
-      linkLabelWebsite.Text = @"https://github.com/imasm/samschanneledit";
-    }
-
-    #region Assembly Attribute Accessors
-
-    public string AssemblyTitle
-    {
-      get
-      {
-        object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
-        if (attributes.Length > 0)
+        public FAboutBox()
         {
-          var titleAttribute = (AssemblyTitleAttribute)attributes[0];
-          if (titleAttribute.Title != "")
-          {
-            return titleAttribute.Title;
-          }
+            InitializeComponent();
+            Text = String.Format("About {0}", AssemblyTitle);
+            labelProductName.Text = AssemblyProduct;
+            labelVersion.Text = AssemblyVersion;
+            labelCopyright.Text = AssemblyCopyright;
+            labelCompanyName.Text = AssemblyCompany;
+            textBoxDescription.Text = AssemblyDescription;
+
+            //linkLabelWebsite.Text = @"http://samschanneledit.sourceforge.net/";
+            linkLabelWebsite.Text = @"https://github.com/imasm/samschanneledit";
         }
-        return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
-      }
-    }
 
-    public string AssemblyVersion
-    {
-      get
-      {
-        return Assembly.GetExecutingAssembly().GetName().Version.ToString();
-      }
-    }
+        #region Assembly Attribute Accessors
 
-    public string AssemblyDescription
-    {
-      get
-      {
-        object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
-        if (attributes.Length == 0)
+        public string AssemblyTitle
         {
-          return "";
+            get
+            {
+                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
+                if (attributes.Length > 0)
+                {
+                    var titleAttribute = (AssemblyTitleAttribute)attributes[0];
+                    if (titleAttribute.Title != "")
+                    {
+                        return titleAttribute.Title;
+                    }
+                }
+                return System.IO.Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
+            }
         }
-        return ((AssemblyDescriptionAttribute)attributes[0]).Description;
-      }
-    }
 
-    public string AssemblyProduct
-    {
-      get
-      {
-        object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-        if (attributes.Length == 0)
+        public string AssemblyVersion
         {
-          return "";
+            get
+            {
+                return Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            }
         }
-        return ((AssemblyProductAttribute)attributes[0]).Product;
-      }
-    }
 
-    public string AssemblyCopyright
-    {
-      get
-      {
-        object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-        if (attributes.Length == 0)
+        public string AssemblyDescription
         {
-          return "";
+            get
+            {
+                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
+                if (attributes.Length == 0)
+                {
+                    return "";
+                }
+                return ((AssemblyDescriptionAttribute)attributes[0]).Description;
+            }
         }
-        return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
-      }
-    }
 
-    public string AssemblyCompany
-    {
-      get
-      {
-        object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
-        if (attributes.Length == 0)
+        public string AssemblyProduct
         {
-          return "";
+            get
+            {
+                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+                if (attributes.Length == 0)
+                {
+                    return "";
+                }
+                return ((AssemblyProductAttribute)attributes[0]).Product;
+            }
         }
-        return ((AssemblyCompanyAttribute)attributes[0]).Company;
-      }
-    }
-    #endregion
 
-    public new static DialogResult Show()
-    {
-      var f = new FAboutBox();
-      return f.ShowDialog();
-    }
+        public string AssemblyCopyright
+        {
+            get
+            {
+                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+                if (attributes.Length == 0)
+                {
+                    return "";
+                }
+                return ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
+            }
+        }
 
-    private void linkLabelWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-    {
-      var sInfo = new ProcessStartInfo(linkLabelWebsite.Text);
-      Process.Start(sInfo);
+        public string AssemblyCompany
+        {
+            get
+            {
+                object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
+                if (attributes.Length == 0)
+                {
+                    return "";
+                }
+                return ((AssemblyCompanyAttribute)attributes[0]).Company;
+            }
+        }
+        #endregion
+
+        public new static DialogResult Show()
+        {
+            var f = new FAboutBox();
+            return f.ShowDialog();
+        }
+
+        private void linkLabelWebsite_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            var sInfo = new ProcessStartInfo(linkLabelWebsite.Text);
+            Process.Start(sInfo);
+        }
     }
-  }
 }

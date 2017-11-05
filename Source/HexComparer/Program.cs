@@ -1,6 +1,6 @@
-﻿#region Copyright (C) 2011 Ivan Masmitja
+﻿#region Copyright (C) 2011-2017 Ivan Masmitjà
 
-// Copyright (C) 2011 Ivan Masmitja
+// Copyright (C) 2011-2017 Ivan Masmitjà
 // 
 // SamsChannelEditor is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,14 +22,14 @@ using System.Windows.Forms;
 
 namespace HexComparer
 {
-  static class Program
-  {
-    [STAThread]
-    static void Main()
+    static class Program
     {
-      Application.EnableVisualStyles();
-      Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new FMain());
+        [STAThread]
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new FMain());
+        }
     }
-  }
 }
