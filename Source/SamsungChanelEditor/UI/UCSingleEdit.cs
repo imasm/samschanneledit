@@ -295,7 +295,6 @@ namespace SamsChannelEditor.UI
 
         #endregion
 
-
         /// <summary>
         /// Renumber all channels in the listview
         /// </summary>
@@ -305,18 +304,9 @@ namespace SamsChannelEditor.UI
         }
 
         /// <summary>
-        /// Renumber all channels in the listview and if set remove encrypted 
+        /// Renumber all channels from min to max
         /// </summary>
-        private void RenumberChannels(bool removeEncrypted)
-        {
-            RenumberChannels(0, listView1.Items.Count, removeEncrypted);
-        }
-
-
-        /// <summary>
-        /// Renumber all channels from min to max and if set remove encrypted channels
-        /// </summary>
-        private void RenumberChannels(int min, int max, bool removeEncrypted = false)
+        private void RenumberChannels(int min, int max)
         {
             var start = 0;
             var end = listView1.Items.Count - 1;
@@ -339,19 +329,30 @@ namespace SamsChannelEditor.UI
             for (var i = start; i <= end; i++)
             {
                 var lvi = listView1.Items[i];
-                if (removeEncrypted)
-                {
-                    var mc = lvi.Tag as MapChannel;
-                    if (mc != null)
-                    {
-                        if (mc.IsEncrypted) lvi.Checked = false;
-                    }
-                }
-
                 if (lvi.Checked)
                 {
                     lvi.Text = idx.ToString(CultureInfo.InvariantCulture);
                     idx++;
+                }
+            }
+        }
+
+        private void RemoveEncrypted()
+        {
+            foreach (ListViewItem lvi in listView1.Items)
+            {
+                var mc = lvi.Tag as MapChannel;
+                if (mc != null)
+                {
+                    if (mc.IsEncrypted)
+                    {
+                        lvi.Checked = false;
+
+                        var ch = (IChannel)lvi.Tag;
+                        ch.Deleted = true;
+                        lvi.Font = (ch.Deleted ? _deletedItemFont : _normalItemFont);
+                        lvi.Text = "";
+                    }
                 }
             }
         }
@@ -554,7 +555,16 @@ namespace SamsChannelEditor.UI
 
             if (MessageBox.Show(TEXT, CAPTION, MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                RenumberChannels(true);
+                listView1.BeginUpdate();
+                try
+                {
+                    RemoveEncrypted();
+                    RenumberChannels();
+                }
+                finally
+                {
+                    listView1.EndUpdate();
+                }
             }
         }
 
