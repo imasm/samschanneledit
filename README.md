@@ -87,7 +87,11 @@ License
 
 Last changelog
 --------------
-### Version 0.12
+### Version 0.13 ###
+
+* Fix removing encrypted channels.
+
+### Version 0.12 ###
 
 * Fix Drag&Drop. Channel still enabled.
 * Fix rename. Short names will appear correctly.
