@@ -19,13 +19,18 @@ SamsChannelEditor is a desktop application for editing a channel list from your 
   * SatDataBase
 * Easy to use: Just drag & drop channels.
 
+! USE AT YOUR OWN RISK !
+--------------------------
+This software was written without support from TV manufacturers or access to any official documentation about the file formats
+and is suppliedded "as is" without warranty of any kind, either express or implied. Use at your own risk.
+
 Installation
 ------------
 There's no setup package, just download the zip file from [SamsChannelEditor](http://sourceforge.net/projects/samschanneledit/files),
 extract all in a folder and execute ''samschanneleditor.exe''. 
 
-This application is written in C# so you need the .Net framework 2.0 (or newer) to be installed on your computer.
-You can download here : [.NET Framework](http://msdn.microsoft.com/en-us/netframework)
+This application is written in C# so you need the .Net framework 4.0 (or newer) to be installed on your computer.
+You can download here : [.NET Framework 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17851)
 
 Source Code
 ------------
