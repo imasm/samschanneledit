@@ -571,25 +571,26 @@ namespace SamsChannelEditor.UI
         #endregion
 
         #region Edit channel data
-        private void EditListViewItem(ListViewHitTestInfo item)
+        private void EditListViewItem(ListViewHitTestInfo infoItem, int maxLength)
         {
-            if (item == null || item.SubItem == null)
+            if (infoItem == null || infoItem.SubItem == null)
             {
                 return;
-            }
+            }                       
 
             TextBox tbxEdit = new TextBox();
             tbxEdit.Parent = listView1;
-            tbxEdit.Tag = item; // Store clicked item
-            tbxEdit.Location = new Point(item.SubItem.Bounds.Location.X, item.SubItem.Bounds.Location.Y - 1);
+            tbxEdit.Tag = infoItem; // Store clicked item
+            tbxEdit.Location = new Point(infoItem.SubItem.Bounds.Location.X, infoItem.SubItem.Bounds.Location.Y - 1);
             tbxEdit.AutoSize = false;
-            tbxEdit.Height = item.Item.Bounds.Height + 1;
-            tbxEdit.Width = item.SubItem.Bounds.Width + 1;
+            tbxEdit.Height = infoItem.Item.Bounds.Height + 1;
+            tbxEdit.Width = infoItem.SubItem.Bounds.Width + 1;
             tbxEdit.BorderStyle = BorderStyle.FixedSingle;
             tbxEdit.KeyDown += new KeyEventHandler(tbxEdit_KeyDown);
             tbxEdit.LostFocus += new EventHandler(tbxEdit_LostFocus);
-            tbxEdit.Text = item.SubItem.Text;
+            tbxEdit.Text = infoItem.SubItem.Text;
             tbxEdit.CreateControl();
+            tbxEdit.MaxLength = maxLength;
             tbxEdit.Focus();
         }
 
@@ -696,27 +697,33 @@ namespace SamsChannelEditor.UI
             // Only edit name and Fav. lists
             int sidx = info.Item.SubItems.IndexOf(info.SubItem);    // get subitem index
             string lvcolumnKey = listView1.Columns[sidx].Name;
-            IChannel ch = info.Item.Tag as IChannel;
-            if (ch != null)
+            if (info.Item.Tag is IChannel ch)
             {
-                if (IsEditable(ch.GetType().GetProperty(lvcolumnKey)))
-                    EditListViewItem(info);
+                PropertyInfo columnProperty= ch.GetType().GetProperty(lvcolumnKey);
+                ReadAttrubites(columnProperty, out bool isEditable, out int maxLength);
+                if (isEditable)
+                    EditListViewItem(info, maxLength);
             }
         }
 
-        // Check for Editable attribute in property
-        private static bool IsEditable(PropertyInfo property)
+        private static void ReadAttrubites(PropertyInfo property, out bool isEditable, out int maxLength)
         {
+            isEditable = false;
+            maxLength = 0;
             foreach (object attribute in property.GetCustomAttributes(true))
             {
                 if (attribute is EditableAttribute)
                 {
-                    return true;
+                    isEditable = true; ;
+                }
+
+                if (attribute is MaxLengthAttribute maxLengthAttr)
+                {
+                    maxLength = maxLengthAttr.Value;
                 }
             }
-            return false;
+            
         }
-
         #endregion
 
         /// <summary>

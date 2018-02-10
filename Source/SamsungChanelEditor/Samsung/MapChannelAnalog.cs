@@ -25,6 +25,7 @@ namespace SamsChannelEditor.Samsung
 {
     internal class MapChannelAnalog : IChannel
     {
+        const int MaxNameLength = 5;
         bool _isDeleted;
 
         public int FilePosition { get; set; }
@@ -44,6 +45,7 @@ namespace SamsChannelEditor.Samsung
         public short Number { get; set; }
 
         [Editable]
+        [MaxLengthAttribute(MaxNameLength)]
         public virtual string Name
         {
             get
@@ -52,7 +54,13 @@ namespace SamsChannelEditor.Samsung
             }
             set
             {
-                byte[] newName = Encoding.BigEndianUnicode.GetBytes(value);
+                string name = value ?? "";
+                if (name.Length > MaxNameLength)
+                    name = name.Substring(0, MaxNameLength);
+
+                byte[] newName = Encoding.BigEndianUnicode.GetBytes(name);
+
+                Array.Clear(Data, 20, 10);
                 newName.CopyTo(Data, 20);
             }
         }
