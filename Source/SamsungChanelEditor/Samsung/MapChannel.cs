@@ -78,7 +78,7 @@ namespace SamsChannelEditor.Samsung
         }
 
         [Editable]
-        [MaxLengthAttribute(MaxNameLength)]
+        [MaxLength(MaxNameLength)]
         public virtual string Name
         {
             get { return StringUtils.RemoveNulls(Encoding.BigEndianUnicode.GetString(Data, 64, 100)); }

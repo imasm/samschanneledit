@@ -60,11 +60,20 @@ namespace SamsChannelEditor.Samsung
 
                 byte[] newName = Encoding.BigEndianUnicode.GetBytes(name);
 
+                SetNameSize(Convert.ToInt16(newName.Length));
+
                 Array.Clear(Data, 20, 10);
                 newName.CopyTo(Data, 20);
             }
         }
 
+        private void SetNameSize(short size)
+        {
+            byte[] b = BitConverter.GetBytes(size);
+            Data[18] = b[0];
+            Data[19] = b[1];
+        }
+       
         public virtual string ChannelType
         {
             get

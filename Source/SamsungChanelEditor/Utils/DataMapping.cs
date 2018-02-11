@@ -54,6 +54,20 @@ namespace SamsChannelEditor.Utils
 
         #endregion
 
+        private short GetShort(int offset)
+        {
+            return BitConverter.ToInt16(Data, offset);
+        }
+
+        public void SetShort(int offset, short value)
+        {
+            Int16 sh = value;
+            byte[] b = BitConverter.GetBytes(sh);
+
+            Data[offset] = b[0];
+            Data[offset + 1] = b[1];
+        }
+
         #region Word
         public ushort GetWord(int offset)
         {
