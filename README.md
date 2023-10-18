@@ -1,5 +1,5 @@
-## NO LONGER MANTAINED
-THIS PROJECT IS NO LONGER MANTAINED.
+## NO LONGER MAINTAINED
+THIS PROJECT IS NO LONGER MAINTAINED.
 
 > At this moment, I no longer have access to Samsung TVs, and I cannot test their latest models. For this reason, this project cannot provide further updates.
 > Fortunately, there are currently better options, such as [ChanSort](https://github.com/PredatH0r/ChanSort).
