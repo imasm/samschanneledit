@@ -39,7 +39,14 @@ This application is written in C# so you need the .Net framework 4.0 (or newer) 
 
 Source Code
 ------------
-Source code is aviable from [GitHub](https://github.com/imasm/samschanneledit) and [SourceForge](http://sourceforge.net/projects/samschanneledit)
+Source code is aviable from [GitHub](https://github.com/imasm/samschanneledit) 
+
+__Build instructions:__
+*Requieres .NET Framework 4.8 Sdk*
+```bash
+projectPath\source> nuget.exe restore
+projectPath\source> msbuild SamsChannelEditor.sln /property:Configuration=Release
+```
 
 Bad file size error
 -------------------
