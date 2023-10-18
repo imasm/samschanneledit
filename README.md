@@ -35,8 +35,7 @@ Installation
 There's no setup package, just download the zip file from [SamsChannelEditor](http://sourceforge.net/projects/samschanneledit/files),
 extract all in a folder and execute ''samschanneleditor.exe''. 
 
-This application is written in C# so you need the .Net framework 2.0 (or newer) to be installed on your computer.
-You can download here : [.NET Framework](http://msdn.microsoft.com/en-us/netframework)
+This application is written in C# so you need the .Net framework 4.0 (or newer) to be installed on your computer.
 
 Source Code
 ------------
