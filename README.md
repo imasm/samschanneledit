@@ -1,5 +1,11 @@
-SamsChannelEditor
-=================
+## No longer maintained 
+THIS PROJECT IS NO LONGER MANTAINED.
+
+> At this moment, I no longer have access to Samsung TVs, and I cannot test their latest models. For this reason, this project cannot provide further updates.
+> Fortunately, there are currently better options, such as [ChanSort](https://github.com/PredatH0r/ChanSort).
+
+# SamsChannelEditor
+
 
 SamsChannelEditor is a desktop application for editing a channel list from your Samsung TV. Now sorting channels should be much easier.
 
@@ -70,7 +76,7 @@ Developers and Collaborators
 
 License
 -------
-    Copyright (C) 2011  Ivan Masmitj‡ Dagas
+    Copyright (C) 2011  Ivan Masmitj√† Dagas
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
