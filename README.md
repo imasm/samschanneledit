@@ -1,4 +1,4 @@
-## No longer maintained 
+## NO LONGER MANTAINED
 THIS PROJECT IS NO LONGER MANTAINED.
 
 > At this moment, I no longer have access to Samsung TVs, and I cannot test their latest models. For this reason, this project cannot provide further updates.
@@ -24,6 +24,11 @@ SamsChannelEditor is a desktop application for editing a channel list from your 
   * CloneInfo
   * SatDataBase
 * Easy to use: Just drag & drop channels.
+
+! USE AT YOUR OWN RISK !
+--------------------------
+This software was written without support from TV manufacturers or access to any official documentation about the file formats
+and is suppliedded "as is" without warranty of any kind, either express or implied. Use at your own risk.
 
 Installation
 ------------
